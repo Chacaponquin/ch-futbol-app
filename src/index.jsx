@@ -10,7 +10,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
-import { Home, Blog, Login, CreateTeam } from "./containers";
+import { Home, Blog, Login, CreateTeam, CreatePlayer } from "./containers";
 import "./index.css";
 import "antd/dist/antd.css";
 
@@ -46,6 +46,7 @@ ReactDOM.render(
           <Route path="/" element={<App />}>
             <Route path="/" element={<Home />} />
             <Route path="/createTeam" element={<CreateTeam />} />
+            <Route path="/createPlayer" element={<CreatePlayer />} />
             <Route path="/blog" element={<Blog />} />
           </Route>
         </Routes>

@@ -5,6 +5,7 @@ import { showError } from "../../../helpers/showError";
 
 export const useFormHook = (setTeamID) => {
   const [formOpen, setFormOpen] = useState(true);
+  const [leagueSelect, setLeagueSelect] = useState("");
 
   const { data: freeLeagues } = useQuery(findAvailableLeagues, {
     onError: showError,
@@ -15,7 +16,13 @@ export const useFormHook = (setTeamID) => {
   });
 
   const onSubmit = (formData) => {
-    newTeam({ variables: { team: formData } });
+    if (leagueSelect) {
+      newTeam({ variables: { team: { ...formData, league: leagueSelect } } });
+    } else showError({ message: "Debes seleccionar una liga" });
+  };
+
+  const onSelectChange = (value) => {
+    setLeagueSelect(value);
   };
 
   const handleOpenForm = () => {
@@ -24,6 +31,7 @@ export const useFormHook = (setTeamID) => {
 
   return {
     onSubmit,
+    onSelectChange,
     handleOpenForm,
     freeLeagues,
     formOpen,

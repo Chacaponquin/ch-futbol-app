@@ -4,7 +4,7 @@ import NavBar from "./Layout/NavBar";
 import SideBar from "./Layout/SideBar";
 
 function App() {
-  const [sideBarOpen, setSideBarOpen] = useState(true);
+  const [sideBarOpen, setSideBarOpen] = useState(false);
 
   return (
     <>

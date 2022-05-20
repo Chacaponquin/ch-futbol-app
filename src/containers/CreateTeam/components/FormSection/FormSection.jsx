@@ -1,9 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { useFormHook } from "../../hooks/useFormHook";
+import { Select } from "antd";
+const { Option } = Select;
 
 const FormSection = ({ setTeamID }) => {
-  const { onSubmit, freeLeagues, formOpen, handleOpenForm } =
+  const { onSubmit, freeLeagues, formOpen, handleOpenForm, onSelectChange } =
     useFormHook(setTeamID);
 
   return (
@@ -18,14 +20,18 @@ const FormSection = ({ setTeamID }) => {
 
       <AnimatePresence>
         {formOpen && (
-          <InitialForm freeLeagues={freeLeagues} onSubmit={onSubmit} />
+          <InitialForm
+            freeLeagues={freeLeagues}
+            onSubmit={onSubmit}
+            onSelectChange={onSelectChange}
+          />
         )}
       </AnimatePresence>
     </motion.div>
   );
 };
 
-const InitialForm = ({ freeLeagues, onSubmit }) => {
+const InitialForm = ({ freeLeagues, onSubmit, onSelectChange }) => {
   const {
     register,
     handleSubmit,
@@ -59,14 +65,23 @@ const InitialForm = ({ freeLeagues, onSubmit }) => {
           <label htmlFor="" className="text-xl font-bold mb-2">
             League
           </label>
+
           {freeLeagues ? (
-            <select {...register("league")} className="p-3 border-2">
+            <Select
+              showSearch
+              placeholder="Search to Select"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              onChange={onSelectChange}
+            >
               {freeLeagues.findAvailibleLeagues.map((league, i) => (
-                <option value={league._id} key={i}>
+                <Option value={league._id} key={i}>
                   {league.name}
-                </option>
+                </Option>
               ))}
-            </select>
+            </Select>
           ) : (
             <h1 className="mb-0 text-2xl pt-3">No hay Ligas disponibles</h1>
           )}
@@ -75,7 +90,7 @@ const InitialForm = ({ freeLeagues, onSubmit }) => {
         <div className="flex w-full justify-end">
           <button
             type="submit"
-            className="px-4 py-3 rounded-lg text-white bg-primary_color text-xl "
+            className="font-bold  py-3 px-8 text-lg bg-primary_color text-white"
           >
             Submit
           </button>
