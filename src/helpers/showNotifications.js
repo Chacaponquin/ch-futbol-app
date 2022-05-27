@@ -8,3 +8,12 @@ export const showError = (error) => {
         duration: 7,
     });
 };
+
+export const showSucces = (message) => {
+    notification.success({
+        type: "success",
+        message: message.header,
+        description: message.description,
+        duration: 7,
+    });
+};

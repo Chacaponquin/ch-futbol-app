@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import { findAvailableLeagues, createTeamMutation } from "../../../graphql";
-import { showError } from "../../../helpers/showError";
+import { showError } from "../../../helpers/showNotifications";
 
 export const useFormHook = (setTeamID) => {
   const [formOpen, setFormOpen] = useState(true);

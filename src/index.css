@@ -15,3 +15,8 @@
     font-family: Monserrat;
     margin-bottom: 0;
 }
+
+p,
+h1 {
+    margin-bottom: 0;
+}

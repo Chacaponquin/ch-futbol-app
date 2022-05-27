@@ -12,7 +12,11 @@ const CreatePlayer = () => {
 
   const selectClass = "esm:w-[100%] sm:w-52 md:w-72 lg:w-80 xl:w-96 rounded-md";
 
-  const onChange = (date, dateString) => {};
+  const onDateChange = (date, dateString) => {};
+  const onPosChange = (value) => {};
+  const onGenderChange = (value) => {};
+  const onImageChange = () => {};
+  const onCountryChange = (value) => {};
 
   return (
     <div className="exsm:px-3 esm:px-7 sm:px-10 md:px-20 lg:px-64">
@@ -60,7 +64,7 @@ const CreatePlayer = () => {
                 Birthdate
               </label>
               <DatePicker
-                onChange={onChange}
+                onChange={onDateChange}
                 picker={"date"}
                 size="large"
                 className={selectClass}
@@ -80,6 +84,7 @@ const CreatePlayer = () => {
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
+                onChange={onPosChange}
               >
                 {playerPositions.map((pos, i) => (
                   <Option value={pos} key={i}>
@@ -104,6 +109,7 @@ const CreatePlayer = () => {
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
+                onChange={onGenderChange}
               >
                 <Option value={"MALE"}>Male</Option>
                 <Option value={"FEMALE"}>Female</Option>
@@ -123,6 +129,7 @@ const CreatePlayer = () => {
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
                   0
                 }
+                onChange={onCountryChange}
               >
                 {countryList.map((country, i) => (
                   <Option value={country} key={i}>

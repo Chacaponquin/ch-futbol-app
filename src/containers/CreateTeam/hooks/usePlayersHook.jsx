@@ -6,7 +6,7 @@ import {
 } from "../../../graphql";
 import clsx from "clsx";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { showError } from "../../../helpers/showError";
+import { showError } from "../../../helpers/showNotifications";
 
 export const usePlayersHook = (teamID) => {
   const [selectedPlayer, setSelectedPlayer] = useState(null);

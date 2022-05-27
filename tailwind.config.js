@@ -7,6 +7,8 @@ module.exports = {
                 warning: "#ffda79",
                 primary_color: "#1B9CFC",
                 form_bg: "#f5f6fa",
+                danger_color: "#fc5c65",
+                success_color: "#26de81",
             },
             fontFamily: {
                 monserrat: ["Monserrat"],
