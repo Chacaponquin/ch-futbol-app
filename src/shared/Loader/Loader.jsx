@@ -2,8 +2,8 @@ import loader from "../../assets/svg/loader.svg";
 
 const Loader = ({ className = "" }) => {
   return (
-    <div>
-      <img src={loader} alt="loader" className={className} />
+    <div className={className}>
+      <img src={loader} alt="loader" className="w-full h-full object-cover" />
     </div>
   );
 };

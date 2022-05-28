@@ -8,6 +8,7 @@ import { deletePlayer } from "../../graphql/Players/deletePlayer";
 import { FaPlus } from "react-icons/fa";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
+import Loader from "../../shared/Loader/Loader";
 
 const AllPlayers = () => {
   const [allPlayers, setAllPlayers] = useState([]);
@@ -22,7 +23,7 @@ const AllPlayers = () => {
   };
 
   const deleteButtonClass = clsx(
-    "py-2 px-7 bg-danger_color text-white trasnsition-all duration-300",
+    "py-2 px-7 bg-danger_color text-white trasnsition-all duration-300 font-bold",
     { "!bg-slate-200": !selectPlayers.length },
     { "text-black": !selectPlayers.length }
   );
@@ -34,15 +35,18 @@ const AllPlayers = () => {
     onError: showError,
   });
 
-  const [deletePlayers] = useMutation(deletePlayer, {
-    onCompleted: (data) => {
-      showSucces({
-        header: "Exito",
-        description: "Se han eliminado los jugadores con exito",
-      });
-    },
-    onError: showError,
-  });
+  const [deletePlayers, { loading: deleteLoading }] = useMutation(
+    deletePlayer,
+    {
+      onCompleted: () => {
+        showSucces({
+          header: "Exito",
+          description: "Se han eliminado los jugadores con exito",
+        });
+      },
+      onError: showError,
+    }
+  );
 
   return (
     <div className="w-full px-32">
@@ -60,25 +64,29 @@ const AllPlayers = () => {
             className="w-[300px]"
           ></Select>
 
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 items-center ">
+            {deleteLoading ? (
+              <Loader className="text-sm h-[70px] px-6" />
+            ) : (
+              <button
+                className={deleteButtonClass}
+                disabled={!selectPlayers.length}
+                onClick={() =>
+                  deletePlayers({
+                    variables: { players: { players: selectPlayers } },
+                  })
+                }
+              >
+                Delete
+              </button>
+            )}
+
             <Link to={"/createPlayer"}>
-              <button className="py-2 px-7 bg-primary_color text-white flex items-center space-x-3">
+              <button className="py-2 px-7 bg-primary_color text-white flex items-center space-x-3 font-bold">
                 <FaPlus />
                 <p className="mb-0">Add Player</p>
               </button>
             </Link>
-
-            <button
-              className={deleteButtonClass}
-              disabled={!selectPlayers.length}
-              onClick={() =>
-                deletePlayers({
-                  variables: { players: { players: selectPlayers } },
-                })
-              }
-            >
-              Delete
-            </button>
           </div>
         </div>
 

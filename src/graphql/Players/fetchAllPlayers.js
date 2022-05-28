@@ -13,7 +13,18 @@ export const fetchAllPlayers = gql `
         image
         name
       }
-      price
+      actualPrice
+      position
+      totalStats {
+        totalGoals
+        totalAssists
+      }
+      seasonRecords {
+        yearStart
+        yearFinish
+        goals
+        assists
+      }
     }
   }
 `;
