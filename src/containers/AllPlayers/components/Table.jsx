@@ -17,7 +17,7 @@ const Table = ({ players, handleChange }) => {
   return (
     <AnimateSharedLayout>
       <motion.table className="w-full rounded-lg columns-8">
-        <thead>
+        <thead className="rounded-lg">
           <tr className="bg-slate-100">
             {tableHeader.map((header, i) => (
               <th key={i} className="text-left text-lg py-5 first:pl-6">
