@@ -23,7 +23,7 @@ const AllPlayers = () => {
   };
 
   const deleteButtonClass = clsx(
-    "py-2 px-7 bg-danger_color text-white trasnsition-all duration-300 font-bold",
+    "py-2 px-7 bg-danger_color text-white trasnsition-all duration-300 font-bold esm:px-4",
     { "!bg-slate-200": !selectPlayers.length },
     { "text-black": !selectPlayers.length }
   );
@@ -49,11 +49,13 @@ const AllPlayers = () => {
   );
 
   return (
-    <div className="w-full px-32">
-      <h1 className="font-monserratBold text-3xl">All Players</h1>
+    <div className="w-full exsm:px-3 esm:px-5 sm:px-7 md:px-16 lg:px-32">
+      <h1 className="font-monserratBold text-3xl esm:text-center">
+        All Players
+      </h1>
 
-      <div className="border-2 py-5 px-10">
-        <div className="w-full py-6 flex justify-between text-base items-center">
+      <div className="border-2 py-5 px-10 esm:px-5">
+        <div className="w-full py-6 flex justify-between text-base items-center esm:flex-col esm:space-y-3 sm:flex-col sm:space-y-3 md:flex-row md:space-y-0">
           <Select
             showSearch
             placeholder="Search to Select"
@@ -64,7 +66,7 @@ const AllPlayers = () => {
             className="w-[300px]"
           ></Select>
 
-          <div className="flex space-x-4 items-center ">
+          <div className="flex space-x-4 items-center esm:text-sm">
             {deleteLoading ? (
               <Loader className="text-sm h-[70px] px-6" />
             ) : (
@@ -82,7 +84,7 @@ const AllPlayers = () => {
             )}
 
             <Link to={"/createPlayer"}>
-              <button className="py-2 px-7 bg-primary_color text-white flex items-center space-x-3 font-bold">
+              <button className="py-2 px-7 bg-primary_color text-white flex items-center space-x-3 font-bold esm:px-4">
                 <FaPlus />
                 <p className="mb-0">Add Player</p>
               </button>

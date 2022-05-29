@@ -24,7 +24,7 @@ const PlayerRow = ({
   return (
     <>
       <motion.tr className="font-bold text-sm " layout>
-        <td className="flex py-5 items-center pl-6 space-x-5">
+        <td className="flex py-5 items-center pl-6 space-x-5 esm:pl-2 esm:space-x-2">
           <Checkbox className="" onChange={handleChange} id={_id} />
           <img
             src={image}
@@ -33,14 +33,14 @@ const PlayerRow = ({
           />
           <p className="mb-0">{fullName}</p>
         </td>
-        <td>{country}</td>
-        <td>{gender}</td>
-        <td>{position}</td>
-        <td>{age}</td>
-        <td>${actualPrice}</td>
+        <td className="esm:hidden sm:hidden md:table-cell">{country}</td>
+        <td className="esm:hidden sm:hidden xl:table-cell">{gender}</td>
+        <td className="esm:hidden sm:hidden xl:table-cell">{position}</td>
+        <td className="esm:hidden">{age}</td>
+        <td className="esm:hidden sm:hidden xl:table-cell">${actualPrice}</td>
 
         {actualTeamInf ? (
-          <td className="">
+          <td className="esm:hidden sm:hidden lg:table-cell">
             <div className="flex items-center">
               <img
                 src={actualTeamInf?.image}
@@ -51,7 +51,7 @@ const PlayerRow = ({
             </div>
           </td>
         ) : (
-          <td>
+          <td className="esm:hidden sm:hidden lg:table-cell">
             <div className="flex">
               <button className="px-5 py-2 rounded-full bg-success_color text-white cursor-text">
                 Free
@@ -60,7 +60,7 @@ const PlayerRow = ({
           </td>
         )}
         <td
-          className="text-xl pr-6 cursor-pointer"
+          className="text-xl pr-6 cursor-pointer chart esm:pr-2"
           onClick={() => setStatsOpen(!statsOpen)}
         >
           <BsBarChart />
@@ -81,7 +81,7 @@ const PlayerRow = ({
             layout
           >
             <td colSpan={8}>
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center w-full">
                 <TotalStats {...totalStats} />
                 <SeasonChart seasonRecords={seasonRecords} />
               </div>
