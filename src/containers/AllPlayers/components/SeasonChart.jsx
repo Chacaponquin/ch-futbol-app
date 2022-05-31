@@ -14,7 +14,7 @@ const SeasonChart = ({ seasonRecords = [] }) => {
     let returnObject = {};
 
     if (size < 400) returnObject = { width: 300, height: 200 };
-    if (size < 640) returnObject = { width: 350, height: 240 };
+    if (size > 400 && size < 640) returnObject = { width: 350, height: 240 };
     if (size >= 640) returnObject = { width: 530, height: 250 };
     if (size >= 768) returnObject = { width: 640, height: 300 };
     if (size >= 1024) returnObject = { width: 920, height: 330 };
@@ -37,7 +37,7 @@ const SeasonChart = ({ seasonRecords = [] }) => {
       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       width={chartSize.width}
       height={chartSize.height}
-      className="flex justify-center !w-full"
+      className="flex justify-center !w-full esm:-translate-x-7"
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey={`yearFinish`} />

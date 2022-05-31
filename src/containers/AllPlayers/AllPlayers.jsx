@@ -25,7 +25,7 @@ const AllPlayers = () => {
   const deleteButtonClass = clsx(
     "py-2 px-7 bg-danger_color text-white trasnsition-all duration-300 font-bold esm:px-4",
     { "!bg-slate-200": !selectPlayers.length },
-    { "text-black": !selectPlayers.length }
+    { "!text-black": !selectPlayers.length }
   );
 
   useQuery(fetchAllPlayers, {
@@ -63,7 +63,7 @@ const AllPlayers = () => {
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
-            className="w-[300px]"
+            className="w-[300px] exsm:w-[220px]"
           ></Select>
 
           <div className="flex space-x-4 items-center esm:text-sm">

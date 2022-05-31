@@ -29,7 +29,7 @@ const PlayerRow = ({
           <img
             src={image}
             alt={fullName}
-            className="rounded-full w-[50px] h-[50px]"
+            className="rounded-full w-[50px] h-[50px] esm:w-[30px] esm:h-[30px]"
           />
           <p className="mb-0">{fullName}</p>
         </td>

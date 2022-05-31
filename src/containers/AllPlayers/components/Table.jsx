@@ -4,7 +4,7 @@ import PlayerRow from "./PlayerRow";
 import clsx from "clsx";
 
 const Table = ({ players, handleChange }) => {
-  const columnClass = "text-left text-lg py-5 esm:text-base";
+  const columnClass = "text-left text-lg py-5 esm:text-base esm:py-3";
 
   const tableHeader = [
     {
