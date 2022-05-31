@@ -14,7 +14,7 @@ const SeasonChart = ({ seasonRecords = [] }) => {
     let returnObject = {};
 
     if (size < 400) returnObject = { width: 270, height: 200 };
-    if (size > 400 && size < 640) returnObject = { width: 350, height: 240 };
+    if (size > 400 && size < 640) returnObject = { width: 330, height: 220 };
     if (size >= 640) returnObject = { width: 530, height: 250 };
     if (size >= 768) returnObject = { width: 640, height: 300 };
     if (size >= 1024) returnObject = { width: 920, height: 330 };
