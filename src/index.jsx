@@ -12,11 +12,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import {
   Home,
-  Blog,
+  BlogHome,
   Login,
   CreateTeam,
   CreatePlayer,
   AllPlayers,
+  BlogViewArticle,
 } from "./containers";
 import "./index.css";
 import "antd/dist/antd.css";
@@ -54,8 +55,10 @@ ReactDOM.render(
             <Route path="/" element={<Home />} />
             <Route path="/createTeam" element={<CreateTeam />} />
             <Route path="/createPlayer" element={<CreatePlayer />} />
-            <Route path="/blog" element={<Blog />} />
             <Route path="/allPlayers" element={<AllPlayers />} />
+
+            <Route path="/blog" element={<BlogHome />} />
+            <Route path="/blog/viewArticle/:id" element={<BlogViewArticle />} />
           </Route>
         </Routes>
       </BrowserRouter>

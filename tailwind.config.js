@@ -6,6 +6,7 @@ module.exports = {
             colors: {
                 warning: "#ffda79",
                 primary_color: "#1B9CFC",
+                second_color: "#00d2d3",
                 form_bg: "#f5f6fa",
                 danger_color: "#fc5c65",
                 success_color: "#26de81",

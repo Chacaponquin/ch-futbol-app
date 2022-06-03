@@ -14,9 +14,14 @@
 * {
     font-family: Monserrat;
     margin-bottom: 0;
+    text-decoration: none;
 }
 
 p,
 h1 {
     margin-bottom: 0;
+}
+
+a {
+    color: inherit !important;
 }

@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
   const sideBarClass = clsx(
-    "fixed w-[250px] h-screen bg-slate-200 top-0 flex flex-col p-4 transition-all duration-500",
+    "fixed w-[250px] h-screen bg-slate-200 top-0 flex flex-col p-4 transition-all duration-500 z-20",
     { "translate-x-0": sideBarOpen },
     { "-translate-x-[100%]": !sideBarOpen }
   );
