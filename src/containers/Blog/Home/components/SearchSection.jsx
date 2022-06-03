@@ -4,7 +4,7 @@ const { Option } = Select;
 
 const SearchSection = () => {
   return (
-    <div className="w-full flex items-center justify-center py-10">
+    <div className="w-full flex items-center justify-center py-10 esm:py-7">
       <Select
         showSearch
         className="w-[400px]"
