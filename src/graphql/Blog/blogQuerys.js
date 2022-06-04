@@ -12,3 +12,17 @@ export const fetchBlogArticles = gql `
     }
   }
 `;
+
+export const findBlogArticleById = gql `
+  query ($article: ArticleInput!) {
+    findBlogArticleById(article: $article) {
+      _id
+      resume
+      content
+      author
+      title
+      likes
+      createdAt
+    }
+  }
+`;
