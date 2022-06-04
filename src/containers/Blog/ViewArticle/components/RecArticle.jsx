@@ -6,7 +6,7 @@ const RecArticle = ({ articles = [] }) => {
     <div className="">
       <div className="grid grid-rows-3 gap-4 mt-10">
         {[1, 2, 3].map((art, i) => (
-          <div className="flex exsm:flex-col" key={i}>
+          <div className="flex items-center exsm:flex-col" key={i}>
             <img
               src={test}
               alt=""
