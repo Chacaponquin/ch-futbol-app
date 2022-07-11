@@ -5,7 +5,7 @@ const SwitchButton = ({ loading, selectedPlayer, handleTransferPlayer }) => {
   return (
     <>
       {loading ? (
-        <Loader />
+        <Loader className="w-[100px] h-[100px]" />
       ) : (
         <button
           className="px-8 py-5 flex items-center rounded-xl bg-primary_color text-white font-bold h-max"

@@ -13,7 +13,7 @@ const PlayersContainer = ({
 }) => {
   return (
     <>
-      <div className="border-2 p-5 h-full bg-white rounded-lg overflow-y-auto w-[43%]">
+      <div className="border-2 p-5 h-full bg-white rounded-lg overflow-y-auto md:w-[43%] esm:w-[100%] sm:w-[100%]">
         {loading && <Loader />}
 
         {players.length ? (

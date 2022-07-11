@@ -12,7 +12,7 @@ const PlayersSection = ({ teamID }) => {
     playerSelectClass,
     playerSectionOpen,
     freePlayers,
-    ownPlayers,
+    ownPlayers = [],
     selectedPlayer,
     ownPlayersLoading,
     changePlayerLoading,
@@ -57,7 +57,7 @@ const PlayerSelectSection = ({
   playerSelectClass,
   selectedPlayer,
   freePlayers,
-  ownPlayers,
+  ownPlayers = [],
   handleSelectPlayer,
   handleTransferPlayer,
   ownPlayersLoading,
@@ -72,9 +72,9 @@ const PlayerSelectSection = ({
       animate={{ opacity: 1, transitionDelay: 10 }}
       exit={{ opacity: 0 }}
     >
-      <motion.div className="flex w-full h-[500px] justify-between items-center pt-5">
+      <motion.div className="flex esm:flex-col sm:flex-col md:flex-row w-full h-[500px] items-center pt-5 md:space-x-4 esm:space-y-4 sm:space-y-4">
         <PlayersContainer
-          players={ownPlayers?.fetchOwnPlayers}
+          players={ownPlayers}
           loading={ownPlayersLoading}
           playerSelectClass={playerSelectClass}
           handleSelectPlayer={handleSelectPlayer}

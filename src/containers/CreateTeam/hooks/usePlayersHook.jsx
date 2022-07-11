@@ -27,7 +27,10 @@ export const usePlayersHook = (teamID) => {
     {
       variables: { team: { teamID } },
       onError: showError,
-      onCompleted: (data) => setOwnPlayers(data.fetchOwnPlayers),
+      onCompleted: (data) => {
+        console.log(data);
+        setOwnPlayers(data.fetchOwnPlayers);
+      },
     }
   );
 
@@ -40,7 +43,10 @@ export const usePlayersHook = (teamID) => {
       onError: showError,
       refetchQueries: [
         { query: fetchFreePlayers },
-        { query: fetchOwnPlayers, variables: { team: { teamID } } },
+        {
+          query: fetchOwnPlayers,
+          variables: { team: { teamID } },
+        },
       ],
     }
   );
