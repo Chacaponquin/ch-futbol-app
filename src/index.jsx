@@ -13,7 +13,7 @@ import App from "./App";
 import {
   Home,
   BlogHome,
-  Login,
+  SignUp,
   CreateTeam,
   CreatePlayer,
   AllPlayers,
@@ -49,7 +49,7 @@ ReactDOM.render(
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<SignUp />} />
 
           <Route path="/" element={<App />}>
             <Route path="/" element={<Home />} />

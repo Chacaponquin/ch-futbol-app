@@ -1,4 +1,4 @@
-import Login from "./Auth/Login";
+import SignUp from "./Auth/SignUp/SignUp";
 import BlogHome from "./Blog/Home/BlogHome";
 import BlogViewArticle from "./Blog/ViewArticle/BlogViewArticle";
 import CreateTeam from "./CreateTeam/CreateTeam";
@@ -7,11 +7,11 @@ import CreatePlayer from "./CreatePlayer/CreatePlayer";
 import AllPlayers from "./AllPlayers/AllPlayers";
 
 export {
-    Home,
-    BlogHome,
-    Login,
-    CreateTeam,
-    CreatePlayer,
-    AllPlayers,
-    BlogViewArticle,
+  Home,
+  BlogHome,
+  SignUp,
+  CreateTeam,
+  CreatePlayer,
+  AllPlayers,
+  BlogViewArticle,
 };
