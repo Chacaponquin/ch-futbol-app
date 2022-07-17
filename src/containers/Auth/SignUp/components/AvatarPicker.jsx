@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 
 const AvatarPicker = ({
-  sectionClass,
-  handleChangeSection,
+  changeToNextSection,
+  changeToPrevSection,
   headerTextClass,
   handleChangeUserImage,
   imageSelected,
@@ -34,34 +34,35 @@ const AvatarPicker = ({
   }, []);
 
   return (
-    <div className={sectionClass}>
-      <div className="w-full flex flex-col px-64 space-y-10">
-        <h1 className={headerTextClass}>Elija su Avatar</h1>
+    <div className="w-full flex flex-col px-64 space-y-10">
+      <h1 className={headerTextClass}>Elija su Avatar</h1>
 
-        <div className="flex justify-center space-x-14 flex-wrap">
-          {selectImages.map((image, i) => (
-            <img
-              src={image}
-              alt="Buenas"
-              key={i}
-              className={imageClass(image)}
-              onClick={() => handleChangeUserImage(image)}
-            />
-          ))}
-        </div>
+      <div className="flex justify-center space-x-14 flex-wrap">
+        {selectImages.map((image, i) => (
+          <img
+            src={image}
+            alt={image}
+            key={i}
+            className={imageClass(image)}
+            onClick={() => handleChangeUserImage(image)}
+          />
+        ))}
+      </div>
 
-        <div className="flex w-full justify-between text-lg">
-          <button
-            className="bg-white font-bold rounded-md py-3 px-7"
-            onClick={() => handleChangeSection(0)}
-          >
-            Atras
-          </button>
+      <div className="flex w-full justify-between text-lg">
+        <button
+          className="bg-white font-bold rounded-md py-3 px-7"
+          onClick={() => changeToPrevSection()}
+        >
+          Atras
+        </button>
 
-          <button className="rounded-md py-3 px-7 text-white transition-all duration-300 hover:shadow-md hover:shadow-white font-bold bg-gradient-to-r from-purple-400 to-pink-600 p-8">
-            Next
-          </button>
-        </div>
+        <button
+          className="rounded-md py-3 px-7 text-white transition-all duration-300 hover:shadow-md hover:shadow-white font-bold bg-gradient-to-r from-purple-400 to-pink-600 p-8"
+          onClick={() => changeToNextSection()}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

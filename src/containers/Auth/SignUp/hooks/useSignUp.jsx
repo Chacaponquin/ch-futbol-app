@@ -1,27 +1,41 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { createUserMutation } from "../../../../graphql/User/createUserMutation";
+import { showError } from "../../../../helpers/showNotifications";
+import { validateSignUp } from "../../../../helpers/validateSignUp";
 
 export const useSignUp = () => {
   const [userInf, setUserInf] = useState({
-    name: null,
+    username: null,
     password: null,
     image: null,
     email: null,
+    comfirmPassword: null,
   });
 
-  const [newUser] = useMutation(createUserMutation);
+  const [newUser, { loading }] = useMutation(createUserMutation);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
+    try {
+      validateSignUp(userInf);
 
-    newUser({ variables: { user: userInf } })
-      .then(({ data }) => {
-        /*localStorage.setItem("token", data.login);
-        setToken(data.login);*/
-        console.log(data);
-      })
-      .catch((error) => console.log(error));
+      newUser({
+        variables: {
+          user: {
+            username: userInf.username,
+            image: userInf.image,
+            email: userInf.email,
+            password: userInf.password,
+          },
+        },
+        onCompleted: (data) => {
+          console.log(data);
+        },
+        onError: showError,
+      });
+    } catch (error) {
+      showError(error);
+    }
   };
 
   const handleChange = (e) => {
@@ -32,6 +46,7 @@ export const useSignUp = () => {
 
   return {
     userInf,
+    loading,
     handleSubmit,
     handleChange,
     handleChangeUserImage,
