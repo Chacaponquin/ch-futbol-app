@@ -8,20 +8,12 @@ import {
 } from "@apollo/client";
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import App from "./App";
-import {
-  Home,
-  BlogHome,
-  SignUp,
-  CreateTeam,
-  CreatePlayer,
-  AllPlayers,
-  BlogViewArticle,
-} from "./containers";
+import { BrowserRouter } from "react-router-dom";
+import { UserProvider } from "./context/UserContext";
+import AppRoutes from "./Layout/Routes/Routes";
+
 import "./index.css";
 import "antd/dist/antd.css";
-import UserProvider from "./context/UserContext";
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_URL,
@@ -50,22 +42,7 @@ ReactDOM.render(
     <ApolloProvider client={client}>
       <UserProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<SignUp />} />
-
-            <Route path="/" element={<App />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/createTeam" element={<CreateTeam />} />
-              <Route path="/createPlayer" element={<CreatePlayer />} />
-              <Route path="/allPlayers" element={<AllPlayers />} />
-
-              <Route path="/blog" element={<BlogHome />} />
-              <Route
-                path="/blog/viewArticle/:id"
-                element={<BlogViewArticle />}
-              />
-            </Route>
-          </Routes>
+          <AppRoutes />
         </BrowserRouter>
       </UserProvider>
     </ApolloProvider>

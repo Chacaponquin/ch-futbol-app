@@ -5,6 +5,7 @@ import CreateTeam from "./CreateTeam/CreateTeam";
 import Home from "./Home/Home";
 import CreatePlayer from "./CreatePlayer/CreatePlayer";
 import AllPlayers from "./AllPlayers/AllPlayers";
+import Dashboard from "./Dashboard/Dashboard";
 
 export {
   Home,
@@ -14,4 +15,5 @@ export {
   CreatePlayer,
   AllPlayers,
   BlogViewArticle,
+  Dashboard,
 };

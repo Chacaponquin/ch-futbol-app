@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const NavBar = ({ setSideBarOpen }) => {
   const location = useLocation();
 
-  const navBarClass = clsx("w-full py-6 lg:px-20 esm:px-5 sm:px-8 md:px-12", {
+  const navBarClass = clsx("w-full pt-6 lg:px-20 esm:px-5 sm:px-8 md:px-12", {
     "absolute top-0": location.pathname === "/",
   });
 

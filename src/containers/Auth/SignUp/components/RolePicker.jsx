@@ -2,34 +2,35 @@ import { motion, AnimateSharedLayout } from "framer-motion";
 import { useState } from "react";
 import { BsX } from "react-icons/bs";
 import { loginBenefits } from "../../../../helpers/loginBenefits";
+import Loader from "../../../../shared/Loader/Loader";
 import image1 from "../../../../assets/images/login/character.png";
 import image2 from "../../../../assets/images/login/coach.png";
 import image3 from "../../../../assets/images/login/football-player.png";
+import { userRoles } from "../../../../helpers/userRoles";
 
-const RolePicker = ({ headerTextClass, handleSubmit, changeToPrevSection }) => {
-  const roles = {
-    PLAYER: "Player",
-    TRAINER: "Trainer",
-    CLUB_OWNER: "Club Owner",
-  };
-
+const RolePicker = ({
+  headerTextClass,
+  handleSubmit,
+  changeToPrevSection,
+  loading,
+}) => {
   const roleCard = [
     {
       id: 1,
       image: image3,
-      role: roles.PLAYER,
+      role: userRoles.PLAYER,
       benefits: loginBenefits.PLAYER,
     },
     {
       id: 2,
       image: image2,
-      role: roles.TRAINER,
+      role: userRoles.TRAINER,
       benefits: loginBenefits.TRAINER,
     },
     {
       id: 3,
       image: image1,
-      role: roles.CLUB_OWNER,
+      role: userRoles.CLUB_OWNER,
       benefits: loginBenefits.OWNER,
     },
   ];
@@ -45,6 +46,7 @@ const RolePicker = ({ headerTextClass, handleSubmit, changeToPrevSection }) => {
               card={card}
               key={card.id}
               handleSubmit={handleSubmit}
+              loading={loading}
             />
           ))}
         </div>
@@ -62,7 +64,7 @@ const RolePicker = ({ headerTextClass, handleSubmit, changeToPrevSection }) => {
   );
 };
 
-const SignUpRoleCard = ({ card, handleSubmit }) => {
+const SignUpRoleCard = ({ card, handleSubmit, loading }) => {
   const [openCard, setOpenCard] = useState(false);
 
   const handleOpenCard = () => setOpenCard(!openCard);
@@ -74,6 +76,7 @@ const SignUpRoleCard = ({ card, handleSubmit }) => {
           {...card}
           handleOpenCard={handleOpenCard}
           handleSubmit={handleSubmit}
+          loading={loading}
         />
       ) : (
         <CompactCard {...card} handleOpenCard={handleOpenCard} />
@@ -88,10 +91,11 @@ const ExpandCard = ({
   handleOpenCard,
   benefits,
   handleSubmit,
+  loading,
 }) => {
   return (
     <motion.div
-      className="w-full fixed h-full top-0 left-0 z-50 esm:px-4 md:px-10 lg:px-20 esm:-top-[50%]"
+      className="w-full fixed h-full top-0 left-0 z-50 esm:px-4 sm:px-4 md:px-10 lg:px-20 esm:-top-[40%]"
       layoutId={"expandible-card"}
     >
       <div className="rounded-lg bg-white py-5 px-10 min-h-full flex flex-col">
@@ -104,7 +108,7 @@ const ExpandCard = ({
             <img
               src={image}
               alt={role}
-              className="object-cover w-[350px] esm:w-[200px]"
+              className="object-cover esm:w-[180px] sm:w-[200px] lg:w-[300px] xl:w-[350px]"
             />
           </div>
 
@@ -130,12 +134,16 @@ const ExpandCard = ({
             </motion.ul>
 
             <div className="flex justify-end">
-              <button
-                className="rounded-md py-3 px-7 text-white font-bold bg-gradient-to-r from-purple-400 to-pink-600 w-max text-xl"
-                onClick={handleSubmit}
-              >
-                Crear
-              </button>
+              {loading ? (
+                <Loader className="w-[100px]" />
+              ) : (
+                <button
+                  className="rounded-md py-3 px-7 text-white font-bold bg-gradient-to-r from-purple-400 to-pink-600 w-max text-xl"
+                  onClick={() => handleSubmit(role)}
+                >
+                  Crear
+                </button>
+              )}
             </div>
           </motion.div>
         </div>
@@ -147,7 +155,7 @@ const ExpandCard = ({
 const CompactCard = ({ id, image, role, handleOpenCard }) => {
   return (
     <motion.div
-      className="md:p-5 px-8 py-5 rounded-md bg-white cursor-pointer flex md:flex-col items-center flex-row"
+      className="md:p-5 px-8 py-5 rounded-md bg-white cursor-pointer flex sm:flex-col items-center flex-row"
       onClick={handleOpenCard}
       layoutId={"expandible-card"}
       key={id}

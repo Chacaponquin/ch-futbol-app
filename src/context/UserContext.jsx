@@ -9,14 +9,12 @@ const UserProvider = ({ children }) => {
 
   const token = localStorage.getItem("token");
 
-  useQuery(getUserByToken, {
+  const { loading: getUserLoading } = useQuery(getUserByToken, {
     variables: {
-      token: {
-        token: token,
-      },
+      token: token,
     },
     onCompleted: ({ getUserByToken }) => {
-      console.log(getUserByToken);
+      setActualUser(getUserByToken);
     },
     onError: (error) => {
       console.log(error);
@@ -31,4 +29,4 @@ const UserProvider = ({ children }) => {
 };
 
 export { UserProvider };
-export default UserProvider;
+export default UserContext;

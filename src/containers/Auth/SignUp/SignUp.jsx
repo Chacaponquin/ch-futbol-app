@@ -7,8 +7,13 @@ import RolePicker from "./components/RolePicker";
 const SignUp = ({ setToken }) => {
   const [sectionActive, setSectionActive] = useState(0);
 
-  const { userInf, handleChange, handleChangeUserImage, handleSubmit } =
-    useSignUp();
+  const {
+    userInf,
+    handleChange,
+    handleChangeUserImage,
+    handleSubmit,
+    loading,
+  } = useSignUp();
 
   const headerTextClass =
     "font-monserratBold text-8xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 pb-3 m-0 text-center esm:text-6xl";
@@ -43,6 +48,7 @@ const SignUp = ({ setToken }) => {
             changeToPrevSection={changeToPrevSection}
             headerTextClass={headerTextClass}
             handleSubmit={handleSubmit}
+            loading={loading}
           />
         </SignUpSection>
       </div>

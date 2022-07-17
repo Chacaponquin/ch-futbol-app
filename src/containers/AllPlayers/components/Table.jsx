@@ -30,7 +30,10 @@ const Table = ({ players, handleChange }) => {
     },
     {
       column: "Team",
-      class: clsx(columnClass, "esm:hidden sm:hidden lg:table-cell"),
+      class: clsx(
+        columnClass,
+        "esm:hidden sm:hidden lg:table-cell text-center"
+      ),
     },
     { column: "", class: columnClass },
   ];

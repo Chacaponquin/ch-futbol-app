@@ -52,8 +52,8 @@ const PlayerRow = ({
           </td>
         ) : (
           <td className="esm:hidden sm:hidden lg:table-cell">
-            <div className="flex">
-              <button className="px-5 py-2 rounded-full bg-success_color text-white cursor-text">
+            <div className="flex justify-center pr-4">
+              <button className="px-5 py-2 rounded-full bg-success_color text-white cursor-text font-bold w-full">
                 Free
               </button>
             </div>
