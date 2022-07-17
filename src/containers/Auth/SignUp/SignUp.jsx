@@ -11,7 +11,7 @@ const SignUp = ({ setToken }) => {
     useSignUp();
 
   const headerTextClass =
-    "font-monserratBold text-8xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 pb-3 m-0 text-center";
+    "font-monserratBold text-8xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 pb-3 m-0 text-center esm:text-6xl";
 
   const changeToNextSection = () => setSectionActive(sectionActive + 1);
 

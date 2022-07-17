@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { createUserMutation } from "../../../../graphql/User/createUserMutation";
 import { showError } from "../../../../helpers/showNotifications";
 import { validateSignUp } from "../../../../helpers/validateSignUp";
+import UserContext from "../../../../context/UserContext";
 
 export const useSignUp = () => {
   const [userInf, setUserInf] = useState({
@@ -12,6 +13,8 @@ export const useSignUp = () => {
     email: null,
     comfirmPassword: null,
   });
+
+  const hola = useContext(UserContext);
 
   const [newUser, { loading }] = useMutation(createUserMutation);
 
@@ -28,8 +31,10 @@ export const useSignUp = () => {
             password: userInf.password,
           },
         },
-        onCompleted: (data) => {
-          console.log(data);
+        onCompleted: ({ createUser }) => {
+          console.log(createUser.token);
+          localStorage.setItem("token", createUser.token);
+          console.log(hola);
         },
         onError: showError,
       });

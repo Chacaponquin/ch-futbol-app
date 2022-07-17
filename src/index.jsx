@@ -21,6 +21,7 @@ import {
 } from "./containers";
 import "./index.css";
 import "antd/dist/antd.css";
+import UserProvider from "./context/UserContext";
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_API_URL,
@@ -47,21 +48,26 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<SignUp />} />
+      <UserProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<SignUp />} />
 
-          <Route path="/" element={<App />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/createTeam" element={<CreateTeam />} />
-            <Route path="/createPlayer" element={<CreatePlayer />} />
-            <Route path="/allPlayers" element={<AllPlayers />} />
+            <Route path="/" element={<App />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/createTeam" element={<CreateTeam />} />
+              <Route path="/createPlayer" element={<CreatePlayer />} />
+              <Route path="/allPlayers" element={<AllPlayers />} />
 
-            <Route path="/blog" element={<BlogHome />} />
-            <Route path="/blog/viewArticle/:id" element={<BlogViewArticle />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+              <Route path="/blog" element={<BlogHome />} />
+              <Route
+                path="/blog/viewArticle/:id"
+                element={<BlogViewArticle />}
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </UserProvider>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")

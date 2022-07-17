@@ -35,11 +35,11 @@ const RolePicker = ({ headerTextClass, handleSubmit, changeToPrevSection }) => {
   ];
 
   return (
-    <div className="flex px-32">
+    <div className="flex lg:px-32 esm:px-7 sm:px-20">
       <div className="flex flex-col">
         <h1 className={headerTextClass}>Elije tu Rol</h1>
 
-        <div className="flex gap-5 mt-3">
+        <div className="flex gap-5 mt-3 esm:flex-col">
           {roleCard.map((card) => (
             <SignUpRoleCard
               card={card}
@@ -51,7 +51,7 @@ const RolePicker = ({ headerTextClass, handleSubmit, changeToPrevSection }) => {
 
         <div className="flex justify-start py-3">
           <button
-            className="bg-white font-bold rounded-md py-3 px-7"
+            className="bg-white font-bold rounded-md py-3 px-7 text-lg"
             onClick={changeToPrevSection}
           >
             Atras
@@ -94,29 +94,36 @@ const ExpandCard = ({
       className="w-full fixed h-full top-0 left-0 z-50 px-20"
       layoutId={"expandible-card"}
     >
-      <div className="rounded-lg bg-white py-5 px-10 h-full flex flex-col">
+      <div className="rounded-lg bg-white py-5 px-10 min-h-full flex flex-col">
         <div className="flex justify-end cursor-pointer text-4xl ">
           <BsX onClick={handleOpenCard} />
         </div>
 
-        <div className="grid grid-cols-2 grid-rows-1 items-center">
+        <div className="grid md:grid-cols-2 md:grid-rows-1 grid-rows-2 grid-cols-1 items-center">
           <div className="flex items-center justify-center">
-            <img src={image} alt={role} className="object-cover w-[350px]" />
+            <img
+              src={image}
+              alt={role}
+              className="object-cover w-[350px] esm:w-[200px]"
+            />
           </div>
 
           <motion.div
-            className="flex flex-col pr-10 relative space-y-6"
+            className="flex flex-col pr-10 relative space-y-6 esm:space-y-3 esm:pr-0"
             transition={{ delay: 0.5 }}
             initial={{ opacity: 0, top: "3rem" }}
             animate={{ opacity: 1, top: "0rem" }}
           >
-            <motion.h1 className="font-bold text-3xl relative mb-0">
+            <motion.h1 className="font-bold text-3xl esm:text-xl relative mb-0">
               ¿Qué cosas puedes hacer?
             </motion.h1>
 
             <motion.ul className="list-disc relative">
               {benefits.map((ben, i) => (
-                <motion.li className="font-bold list-item text-xl" key={i}>
+                <motion.li
+                  className="font-bold list-item text-xl esm:text-lg"
+                  key={i}
+                >
                   {ben}
                 </motion.li>
               ))}
@@ -140,13 +147,17 @@ const ExpandCard = ({
 const CompactCard = ({ id, image, role, handleOpenCard }) => {
   return (
     <motion.div
-      className="p-5 rounded-md bg-white cursor-pointer"
+      className="md:p-5 px-8 py-5 rounded-md bg-white cursor-pointer flex md:flex-col items-center flex-row"
       onClick={handleOpenCard}
       layoutId={"expandible-card"}
       key={id}
     >
-      <motion.img src={image} alt={role} className="object-cover w-[250px]" />
-      <motion.h1 className="font-monserratBold flex items-center mb-0 text-4xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-center">
+      <motion.img
+        src={image}
+        alt={role}
+        className="object-cover lg:w-[250px] esm:hidden md:w-[150px]"
+      />
+      <motion.h1 className="font-monserratBold flex justify-center mb-0 md:text-4xl text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-center">
         {role}
       </motion.h1>
     </motion.div>

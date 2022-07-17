@@ -34,10 +34,10 @@ const AvatarPicker = ({
   }, []);
 
   return (
-    <div className="w-full flex flex-col px-64 space-y-10">
+    <div className="w-full flex flex-col space-y-10 esm:px-5 sm:px-5 md:px-10 lg:px-40 xl:px-64">
       <h1 className={headerTextClass}>Elija su Avatar</h1>
 
-      <div className="flex justify-center space-x-14 flex-wrap">
+      <div className="flex justify-center gap-14 flex-wrap esm:gap-9 ">
         {selectImages.map((image, i) => (
           <img
             src={image}
@@ -52,14 +52,14 @@ const AvatarPicker = ({
       <div className="flex w-full justify-between text-lg">
         <button
           className="bg-white font-bold rounded-md py-3 px-7"
-          onClick={() => changeToPrevSection()}
+          onClick={changeToPrevSection}
         >
           Atras
         </button>
 
         <button
           className="rounded-md py-3 px-7 text-white transition-all duration-300 hover:shadow-md hover:shadow-white font-bold bg-gradient-to-r from-purple-400 to-pink-600 p-8"
-          onClick={() => changeToNextSection()}
+          onClick={changeToNextSection}
         >
           Next
         </button>

@@ -5,8 +5,8 @@ const InitialForm = ({
   headerTextClass,
   handleChange,
 }) => {
-  const inputClass = "rounded-md mt-2 px-7 py-3 font-semibold w-full";
-  const labelClass = "font-bold text-xl text-white block";
+  const inputClass = "rounded-md mt-2 px-7 py-3 font-semibold w-full esm:px-4";
+  const labelClass = "font-bold text-xl text-white block esm:text-lg";
 
   return (
     <div>
@@ -17,7 +17,7 @@ const InitialForm = ({
           ev.preventDefault();
           changeToNextSection();
         }}
-        className="flex flex-col w-96 space-y-5"
+        className="flex flex-col w-96 space-y-5 esm:w-80"
       >
         <div>
           <label htmlFor="" className={labelClass}>
@@ -75,7 +75,7 @@ const InitialForm = ({
           />
         </div>
 
-        <button className="rounded-md mt-2 py-4 px-10 text-white transition-all duration-300 hover:shadow-sm hover:shadow-white font-bold text-2xl bg-gradient-to-r from-purple-400 to-pink-600 p-8">
+        <button className="rounded-md mt-2 py-4 px-10 text-white transition-all duration-300 hover:shadow-sm hover:shadow-white font-bold text-2xl bg-gradient-to-r from-purple-400 to-pink-600 p-8 esm:text-lg esm:py-3">
           Create
         </button>
       </form>
