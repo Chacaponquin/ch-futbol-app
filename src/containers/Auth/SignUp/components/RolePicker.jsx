@@ -91,7 +91,7 @@ const ExpandCard = ({
 }) => {
   return (
     <motion.div
-      className="w-full fixed h-full top-0 left-0 z-50 px-20"
+      className="w-full fixed h-full top-0 left-0 z-50 esm:px-4 md:px-10 lg:px-20 esm:-top-[50%]"
       layoutId={"expandible-card"}
     >
       <div className="rounded-lg bg-white py-5 px-10 min-h-full flex flex-col">
