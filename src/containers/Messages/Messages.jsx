@@ -1,14 +1,13 @@
-import React from "react";
 import { Checkbox } from "antd";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import clsx from "clsx";
 import Icon from "supercons";
 import { useQuery } from "@apollo/client";
 import { getAllMessagesUser } from "../../graphql/Message/getAllMessagesUser";
-import { useContext } from "react";
 import UserContext from "../../context/UserContext";
 import { showError } from "../../helpers/showNotifications";
 import { useNavigate } from "react-router";
+import Loader from "../../shared/Loader/Loader";
 
 const Messages = () => {
   const { actualUser } = useContext(UserContext);
@@ -61,6 +60,14 @@ const Messages = () => {
     { "bg-slate-100 text-black": selectedMessages.length === 0 },
     { "bg-danger_color text-white": selectedMessages.length !== 0 }
   );
+
+  if (getMessagesLoading) {
+    return (
+      <div className="px-20 w-full flex justify-center esm:px-10">
+        <Loader className="mt-10 w-[200px]" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full px-20">
