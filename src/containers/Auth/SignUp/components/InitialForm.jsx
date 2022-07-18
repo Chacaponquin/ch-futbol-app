@@ -10,7 +10,7 @@ const InitialForm = ({
 
   return (
     <div>
-      <h1 className={headerTextClass}>Login</h1>
+      <h1 className={headerTextClass}>Sign Up</h1>
 
       <form
         onSubmit={(ev) => {

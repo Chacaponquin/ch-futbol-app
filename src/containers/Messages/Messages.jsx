@@ -3,11 +3,31 @@ import { Checkbox } from "antd";
 import { useState } from "react";
 import clsx from "clsx";
 import Icon from "supercons";
+import { useQuery } from "@apollo/client";
+import { getAllMessagesUser } from "../../graphql/Message/getAllMessagesUser";
+import { useContext } from "react";
+import UserContext from "../../context/UserContext";
+import { showError } from "../../helpers/showNotifications";
+import { useNavigate } from "react-router";
 
 const Messages = () => {
+  const { actualUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const [selectedMessages, setSelectedMessages] = useState([]);
+  const [userMessages, setUserMessages] = useState([]);
 
   const [openMessage, setOpenMessage] = useState(null);
+
+  const { loading: getMessagesLoading } = useQuery(getAllMessagesUser, {
+    variables: { id: actualUser._id },
+    onError: (error) => {
+      showError(error);
+      navigate("/dashboard");
+    },
+    onCompleted: ({ getAllMessagesUser }) =>
+      setUserMessages(getAllMessagesUser),
+  });
 
   const selectMessage = (ev, id) => {
     const check = ev.target.checked;
@@ -46,20 +66,28 @@ const Messages = () => {
     <div className="w-full px-20">
       <div className="w-full flex">
         <div className={messageSectionClass}>
-          <MessagesSectionHeader
-            handleFilterMessage={handleFilterMessage}
-            deleteButtonClass={deleteButtonClass}
-          />
+          <MessagesSectionHeader deleteButtonClass={deleteButtonClass} />
+          {userMessages.length > 0 && (
+            <FilterMessages handleFilterMessage={handleFilterMessage} />
+          )}
 
-          <div className="flex flex-col w-full py-2">
-            {[1, 2, 3, 4, 5].map((_, i) => (
-              <MessageCard
-                key={i}
-                selectMessage={selectMessage}
-                handleOpenMessage={handleOpenMessage}
-              />
-            ))}
-          </div>
+          {userMessages.length > 0 ? (
+            <div className="flex flex-col w-full py-2">
+              {userMessages.map((_, i) => (
+                <MessageCard
+                  key={i}
+                  selectMessage={selectMessage}
+                  handleOpenMessage={handleOpenMessage}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="w-full text-center pt-10 flex flex-col">
+              <h1 className="mb-0 font-monserratBold text-5xl text-slate-500">
+                No tienes mensajes
+              </h1>
+            </div>
+          )}
         </div>
 
         <div className={openMessageClass}>
@@ -70,7 +98,21 @@ const Messages = () => {
   );
 };
 
-const MessagesSectionHeader = ({ deleteButtonClass, handleFilterMessage }) => {
+const FilterMessages = ({ handleFilterMessage }) => {
+  return (
+    <div className="flex w-full px-10 py-3 text-lg bg-slate-100 rounded-md">
+      <Icon glyph="filter-fill" size={40} />
+      <input
+        type="text"
+        onChange={handleFilterMessage}
+        className="outline-0 ml-4 bg-transparent"
+        placeholder="Filter..."
+      />
+    </div>
+  );
+};
+
+const MessagesSectionHeader = ({ deleteButtonClass }) => {
   return (
     <>
       <div className="flex items-center justify-end gap-5 mb-3">
@@ -83,16 +125,6 @@ const MessagesSectionHeader = ({ deleteButtonClass, handleFilterMessage }) => {
           <Icon glyph="delete" />
           <p className="mb-0 font-bold">Delete</p>
         </button>
-      </div>
-
-      <div className="flex w-full px-10 py-3 text-lg bg-slate-100 rounded-md">
-        <Icon glyph="filter-fill" size={40} />
-        <input
-          type="text"
-          onChange={handleFilterMessage}
-          className="outline-0 ml-4 bg-transparent"
-          placeholder="Filter..."
-        />
       </div>
     </>
   );

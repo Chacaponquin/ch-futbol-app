@@ -2,10 +2,10 @@ import React from "react";
 import { BsX } from "react-icons/bs";
 import Icon from "supercons";
 import clsx from "clsx";
-import UserContext from "../context/UserContext";
+import UserContext from "../../context/UserContext";
 import { useEffect, useState, useContext } from "react";
-import { userRoles } from "../helpers/userRoles";
-import { navBarOptionsObject } from "../helpers/navBarOptions";
+import { userRoles } from "../../helpers/userRoles";
+import { sideBarOptionsObject } from "./helpers/sideBarOptions";
 import { NavLink } from "react-router-dom";
 
 const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
@@ -26,13 +26,13 @@ const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
     if (actualUser) {
       switch (actualUser.role) {
         case userRoles.PLAYER:
-          setNavBarOptions(navBarOptionsObject.PLAYER_OPTIONS);
+          setNavBarOptions(sideBarOptionsObject.PLAYER_OPTIONS);
           break;
         case userRoles.TRAINER:
-          setNavBarOptions(navBarOptionsObject.TRAINER_OPTIONS);
+          setNavBarOptions(sideBarOptionsObject.TRAINER_OPTIONS);
           break;
         case userRoles.CLUB_OWNER:
-          setNavBarOptions(navBarOptionsObject.OWNER_OPTIONS);
+          setNavBarOptions(sideBarOptionsObject.OWNER_OPTIONS);
           break;
         default:
           break;

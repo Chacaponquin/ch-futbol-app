@@ -11,13 +11,13 @@ const UserProvider = ({ children }) => {
 
   const { loading: getUserLoading } = useQuery(getUserByToken, {
     variables: {
-      token: token,
+      token: token ? token : null,
     },
     onCompleted: ({ getUserByToken }) => {
       setActualUser(getUserByToken);
     },
     onError: (error) => {
-      console.log(error);
+      setActualUser(null);
     },
   });
 

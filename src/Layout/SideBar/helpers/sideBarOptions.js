@@ -1,4 +1,4 @@
-export const navBarOptionsObject = {
+export const sideBarOptionsObject = {
   PLAYER_OPTIONS: [
     {
       url: "/myPlayer",
