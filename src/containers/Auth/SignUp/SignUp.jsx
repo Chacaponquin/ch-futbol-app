@@ -59,7 +59,7 @@ const SignUp = ({ setToken }) => {
 const SignUpSection = ({ children, sectionActive }) => {
   return (
     <div
-      className="w-[100vw] flex flex-col items-center transition-all duration-500 -translate-x-[200vw]"
+      className="w-[100vw] flex flex-col items-center transition-all duration-500"
       style={{ transform: `translateX(-${sectionActive * 100}vw)` }}
     >
       {children}

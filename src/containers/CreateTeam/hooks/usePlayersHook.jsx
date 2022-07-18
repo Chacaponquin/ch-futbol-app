@@ -5,34 +5,26 @@ import {
   transferPlayer,
 } from "../../../graphql";
 import clsx from "clsx";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { showError } from "../../../helpers/showNotifications";
 
 export const usePlayersHook = (teamID) => {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [playerSectionOpen, setPlayerSectionOpen] = useState(false);
   const [freePlayers, setFreePlayers] = useState([]);
   const [ownPlayers, setOwnPlayers] = useState([]);
 
-  const [getFreePlayers, { loading: freePlayersLoading }] = useLazyQuery(
-    fetchFreePlayers,
-    {
-      onError: showError,
-      onCompleted: (data) => setFreePlayers(data.findFreePlayers),
-    }
-  );
+  const { loading: freePlayersLoading } = useQuery(fetchFreePlayers, {
+    onError: showError,
+    onCompleted: ({ findFreePlayers }) => setFreePlayers(findFreePlayers),
+  });
 
-  const [getOwnPlayers, { loading: ownPlayersLoading }] = useLazyQuery(
-    fetchOwnPlayers,
-    {
-      variables: { team: { teamID } },
-      onError: showError,
-      onCompleted: (data) => {
-        console.log(data);
-        setOwnPlayers(data.fetchOwnPlayers);
-      },
-    }
-  );
+  const { loading: ownPlayersLoading } = useQuery(fetchOwnPlayers, {
+    variables: { team: { teamID } },
+    onError: showError,
+    onCompleted: ({ fetchOwnPlayers }) => {
+      setOwnPlayers(fetchOwnPlayers);
+    },
+  });
 
   const [changePlayer, { loading: changePlayerLoading }] = useMutation(
     transferPlayer,
@@ -51,15 +43,6 @@ export const usePlayersHook = (teamID) => {
     }
   );
 
-  const handleOpenPlayersSection = () => {
-    if (!playerSectionOpen) {
-      getOwnPlayers();
-      getFreePlayers();
-    }
-
-    setPlayerSectionOpen(!playerSectionOpen);
-  };
-
   const handleTransferPlayer = () => {
     changePlayer();
   };
@@ -77,13 +60,12 @@ export const usePlayersHook = (teamID) => {
 
   return {
     handleSelectPlayer,
-    handleOpenPlayersSection,
+
     handleTransferPlayer,
     playerSelectClass,
     setFreePlayers,
     setOwnPlayers,
 
-    playerSectionOpen,
     freePlayers,
     ownPlayers,
     selectedPlayer,

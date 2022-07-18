@@ -76,7 +76,7 @@ const InitialForm = ({
         </div>
 
         <button className="rounded-md mt-2 py-4 px-10 text-white transition-all duration-300 hover:shadow-sm hover:shadow-white font-bold text-2xl bg-gradient-to-r from-purple-400 to-pink-600 p-8 esm:text-lg esm:py-3">
-          Create
+          Next
         </button>
       </form>
     </div>

@@ -1,20 +1,47 @@
-import { AnimateSharedLayout, motion } from "framer-motion";
 import { useState } from "react";
 import FormSection from "./components/FormSection/FormSection";
 import PlayersSection from "./components/PlayersSection/PlayersSection";
+import TrainerSection from "./components/TrainerSection/TrainerSection";
 
 const CreateTeam = () => {
   const [teamID, setTeamID] = useState("");
 
+  const [activeSection, setActiveSection] = useState(0);
+
+  const changeNextSection = () => setActiveSection(activeSection + 1);
+
+  const changePrevSection = () => setActiveSection(activeSection - 1);
+
   return (
-    <>
-      <AnimateSharedLayout>
-        <motion.div className="flex py-5 flex-col w-full exsm:px-3 esm:px-7 sm:px-10 md:px-20 lg:px-64">
-          <FormSection setTeamID={setTeamID} />
+    <div className="w-full overflow-x-hidden">
+      <div className="w-[300vw] flex">
+        <CreateTeamSection activeSection={activeSection}>
+          <FormSection
+            setTeamID={setTeamID}
+            changeNextSection={changeNextSection}
+          />
+        </CreateTeamSection>
+
+        <CreateTeamSection activeSection={activeSection}>
+          <TrainerSection />
+        </CreateTeamSection>
+
+        <CreateTeamSection activeSection={activeSection}>
           <PlayersSection teamID={teamID} />
-        </motion.div>
-      </AnimateSharedLayout>
-    </>
+        </CreateTeamSection>
+      </div>
+    </div>
+  );
+};
+
+const CreateTeamSection = ({ children, activeSection }) => {
+  return (
+    <div
+      className="w-[100vw] duration-500 flex"
+      style={{ transform: `translateX(-${activeSection * 100}vw)` }}
+    >
+      {children}
+    </div>
   );
 };
 

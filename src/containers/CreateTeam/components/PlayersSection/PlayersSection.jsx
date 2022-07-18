@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { usePlayersHook } from "../../hooks/usePlayersHook";
 
 import PlayersContainer from "./components/PlayersContainer";
@@ -7,12 +6,10 @@ import SwitchButton from "./components/SwitchButton";
 const PlayersSection = ({ teamID }) => {
   const {
     handleSelectPlayer,
-    handleOpenPlayersSection,
     handleTransferPlayer,
     playerSelectClass,
-    playerSectionOpen,
     freePlayers,
-    ownPlayers = [],
+    ownPlayers,
     selectedPlayer,
     ownPlayersLoading,
     changePlayerLoading,
@@ -22,34 +19,27 @@ const PlayersSection = ({ teamID }) => {
   } = usePlayersHook(teamID);
 
   return (
-    <motion.div className="bg-slate-100 py-6 px-10 mt-5" layout>
-      <motion.button
-        className="font-monserratBold text-2xl cursor-pointer w-full text-left"
-        onClick={handleOpenPlayersSection}
-        disabled={teamID ? false : true}
-        layout
-      >
-        Players
-      </motion.button>
+    <div className="w-full px-20">
+      <div className="bg-slate-100 py-6 px-10 w-full">
+        <button className="font-monserratBold text-2xl cursor-pointer w-full text-left">
+          Players
+        </button>
 
-      <AnimatePresence>
-        {playerSectionOpen && (
-          <PlayerSelectSection
-            freePlayers={freePlayers}
-            ownPlayers={ownPlayers}
-            selectedPlayer={selectedPlayer}
-            playerSelectClass={playerSelectClass}
-            handleSelectPlayer={handleSelectPlayer}
-            handleTransferPlayer={handleTransferPlayer}
-            ownPlayersLoading={ownPlayersLoading}
-            changePlayerLoading={changePlayerLoading}
-            freePlayersLoading={freePlayersLoading}
-            setFreePlayers={setFreePlayers}
-            setOwnPlayers={setOwnPlayers}
-          />
-        )}
-      </AnimatePresence>
-    </motion.div>
+        <PlayerSelectSection
+          freePlayers={freePlayers}
+          ownPlayers={ownPlayers}
+          selectedPlayer={selectedPlayer}
+          playerSelectClass={playerSelectClass}
+          handleSelectPlayer={handleSelectPlayer}
+          handleTransferPlayer={handleTransferPlayer}
+          ownPlayersLoading={ownPlayersLoading}
+          changePlayerLoading={changePlayerLoading}
+          freePlayersLoading={freePlayersLoading}
+          setFreePlayers={setFreePlayers}
+          setOwnPlayers={setOwnPlayers}
+        />
+      </div>
+    </div>
   );
 };
 
@@ -57,7 +47,7 @@ const PlayerSelectSection = ({
   playerSelectClass,
   selectedPlayer,
   freePlayers,
-  ownPlayers = [],
+  ownPlayers,
   handleSelectPlayer,
   handleTransferPlayer,
   ownPlayersLoading,
@@ -67,12 +57,12 @@ const PlayerSelectSection = ({
   setOwnPlayers,
 }) => {
   return (
-    <motion.div
+    <div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transitionDelay: 10 }}
       exit={{ opacity: 0 }}
     >
-      <motion.div className="flex esm:flex-col sm:flex-col md:flex-row w-full h-[500px] items-center pt-5 md:space-x-4 esm:space-y-4 sm:space-y-4">
+      <div className="flex esm:flex-col sm:flex-col md:flex-row w-full h-[500px] items-center pt-5 md:space-x-4 esm:space-y-4 sm:space-y-4">
         <PlayersContainer
           players={ownPlayers}
           loading={ownPlayersLoading}
@@ -96,8 +86,8 @@ const PlayerSelectSection = ({
           loading={freePlayersLoading}
           message={"Lo sentimos pero no hay jugadores disponibles"}
         />
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 

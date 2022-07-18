@@ -7,7 +7,7 @@ export const getUserByToken = gql`
       image
       email
       role
-      category
+      isAdmin
       _id
     }
   }

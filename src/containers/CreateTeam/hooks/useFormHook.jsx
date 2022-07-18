@@ -3,37 +3,53 @@ import { useState } from "react";
 import { findAvailableLeagues, createTeamMutation } from "../../../graphql";
 import { showError } from "../../../helpers/showNotifications";
 
-export const useFormHook = (setTeamID) => {
-  const [formOpen, setFormOpen] = useState(true);
-  const [leagueSelect, setLeagueSelect] = useState("");
+export const useFormHook = (setTeamID, changeNextSection) => {
+  const [teamInf, setTeamInf] = useState({
+    name: null,
+    league: null,
+  });
 
   const { data: freeLeagues } = useQuery(findAvailableLeagues, {
     onError: showError,
   });
-  const [newTeam] = useMutation(createTeamMutation, {
-    onError: showError,
-    onCompleted: (data) => setTeamID(data.createTeam),
-  });
 
-  const onSubmit = (formData) => {
-    if (leagueSelect) {
-      newTeam({ variables: { team: { ...formData, league: leagueSelect } } });
-    } else showError({ message: "Debes seleccionar una liga" });
+  const [newTeam, { loading: createTeamLoading }] =
+    useMutation(createTeamMutation);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    try {
+      if (!teamInf.league) {
+        throw new Error("Debes elegir una liga");
+      }
+      newTeam({
+        variables: { team: teamInf },
+        onCompleted: ({ createTeam }) => {
+          setTeamID(createTeam);
+
+          changeNextSection();
+        },
+        onError: showError,
+      });
+    } catch (error) {
+      showError(error);
+    }
   };
 
   const onSelectChange = (value) => {
-    setLeagueSelect(value);
+    setTeamInf({ ...teamInf, league: value });
   };
 
-  const handleOpenForm = () => {
-    setFormOpen(!formOpen);
+  const handleChange = (e) => {
+    setTeamInf({ ...teamInf, [e.target.name]: e.target.value });
   };
 
   return {
     onSubmit,
     onSelectChange,
-    handleOpenForm,
     freeLeagues,
-    formOpen,
+    handleChange,
+    createTeamLoading,
   };
 };

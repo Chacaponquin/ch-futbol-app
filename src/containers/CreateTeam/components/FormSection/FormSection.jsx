@@ -1,54 +1,46 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { useForm } from "react-hook-form";
 import { useFormHook } from "../../hooks/useFormHook";
 import { Select } from "antd";
+import Loader from "../../../../shared/Loader/Loader";
 const { Option } = Select;
 
-const FormSection = ({ setTeamID }) => {
-  const { onSubmit, freeLeagues, formOpen, handleOpenForm, onSelectChange } =
-    useFormHook(setTeamID);
+const FormSection = ({ setTeamID, changeNextSection }) => {
+  const {
+    onSubmit,
+    freeLeagues,
+    onSelectChange,
+    handleChange,
+    createTeamLoading,
+  } = useFormHook(setTeamID, changeNextSection);
 
   return (
-    <motion.div className="bg-slate-100 py-6 px-10" layout>
-      <motion.button
-        onClick={handleOpenForm}
-        className="text-2xl cursor-pointer w-full text-left font-monserratBold"
-        layout
-      >
-        Initial Form
-      </motion.button>
+    <div className="w-full px-20">
+      <div className="bg-slate-100 py-6 px-10 w-full">
+        <button className="text-2xl cursor-pointer w-full text-left font-monserratBold">
+          Initial Form
+        </button>
 
-      <AnimatePresence>
-        {formOpen && (
-          <InitialForm
-            freeLeagues={freeLeagues}
-            onSubmit={onSubmit}
-            onSelectChange={onSelectChange}
-          />
-        )}
-      </AnimatePresence>
-    </motion.div>
+        <InitialForm
+          freeLeagues={freeLeagues?.findAvailibleLeagues}
+          onSubmit={onSubmit}
+          onSelectChange={onSelectChange}
+          handleChange={handleChange}
+          createTeamLoading={createTeamLoading}
+        />
+      </div>
+    </div>
   );
 };
 
-const InitialForm = ({ freeLeagues, onSubmit, onSelectChange }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
+const InitialForm = ({
+  freeLeagues = [],
+  onSubmit,
+  onSelectChange,
+  createTeamLoading,
+  handleChange,
+}) => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transitionDelay: 10 }}
-      exit={{ opacity: 0 }}
-    >
-      <form className="pt-5" onSubmit={handleSubmit(onSubmit)}>
-        <div className="w-full p-4 bg-warning text-zinc-900 ">
-          Los datos no rellenados se generaran automaticamente
-        </div>
-
+    <div>
+      <form className="pt-5" onSubmit={onSubmit}>
         <div className="flex flex-col mb-4 pt-4">
           <label htmlFor="" className="text-xl font-bold mb-2">
             Name
@@ -57,7 +49,8 @@ const InitialForm = ({ freeLeagues, onSubmit, onSelectChange }) => {
             className="p-3 border-2 focus:border-primary_color rounded-md"
             type="text"
             placeholder="Team Name..."
-            {...register("name", { required: true, maxLength: 50 })}
+            name="name"
+            onChange={handleChange}
           />
         </div>
 
@@ -76,7 +69,7 @@ const InitialForm = ({ freeLeagues, onSubmit, onSelectChange }) => {
               }
               onChange={onSelectChange}
             >
-              {freeLeagues.findAvailibleLeagues.map((league, i) => (
+              {freeLeagues.map((league, i) => (
                 <Option value={league._id} key={i}>
                   {league.name}
                 </Option>
@@ -88,15 +81,19 @@ const InitialForm = ({ freeLeagues, onSubmit, onSelectChange }) => {
         </div>
 
         <div className="flex w-full justify-end">
-          <button
-            type="submit"
-            className="font-bold  py-3 px-8 text-lg bg-primary_color text-white"
-          >
-            Submit
-          </button>
+          {createTeamLoading ? (
+            <Loader className="w-[80px]" />
+          ) : (
+            <button
+              type="submit"
+              className="font-bold py-2 px-7 text-lg bg-primary_color text-white"
+            >
+              Submit
+            </button>
+          )}
         </div>
       </form>
-    </motion.div>
+    </div>
   );
 };
 
