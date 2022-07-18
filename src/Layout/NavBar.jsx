@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Icon from "supercons";
@@ -28,19 +28,7 @@ const NavBar = ({ setSideBarOpen }) => {
         )}
 
         {actualUser ? (
-          <div className="flex items-center">
-            <img
-              src={actualUser.image}
-              alt={actualUser.username}
-              className="w-[50px] h-[50px] object-cover cursor-pointer"
-            />
-
-            {actualUser.isAdmin && (
-              <div className="text-xs border-2 border-solid border-[#f0932b] text-[#f0932b] rounded-full py-2 px-4 font-bold bg-[#f6e58d] ml-3">
-                Admin
-              </div>
-            )}
-          </div>
+          <UserInfSection {...actualUser} />
         ) : (
           <Link to={"/login"}>
             <button className="font-bold bg-primary_color text-white text-xl px-9 py-3 h-full">
@@ -49,6 +37,26 @@ const NavBar = ({ setSideBarOpen }) => {
           </Link>
         )}
       </div>
+    </div>
+  );
+};
+
+const UserInfSection = ({ username, image, isAdmin }) => {
+  const [openOptions, setOpenOptions] = useState(false);
+
+  return (
+    <div className="flex items-center">
+      <img
+        src={image}
+        alt={username}
+        className="w-[50px] h-[50px] object-cover cursor-pointer"
+      />
+
+      {isAdmin && (
+        <div className="text-xs border-2 border-solid border-[#f0932b] text-[#f0932b] rounded-full py-2 px-4 font-bold bg-[#f6e58d] ml-3">
+          Admin
+        </div>
+      )}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import Home from "./Home/Home";
 import CreatePlayer from "./CreatePlayer/CreatePlayer";
 import AllPlayers from "./AllPlayers/AllPlayers";
 import Dashboard from "./Dashboard/Dashboard";
+import Messages from "./Messages/Messages";
 
 export {
   Home,
@@ -16,4 +17,5 @@ export {
   AllPlayers,
   BlogViewArticle,
   Dashboard,
+  Messages,
 };

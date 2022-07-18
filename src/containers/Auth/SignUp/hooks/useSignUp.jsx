@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { createUserMutation } from "../../../../graphql/User/createUserMutation";
 import { showError } from "../../../../helpers/showNotifications";
-import { validateSignUp } from "../../../../helpers/validateSignUp";
+import { validateSignUp } from "../helpers/validateSignUp";
 import UserContext from "../../../../context/UserContext";
 import { getUserByToken } from "../../../../graphql/User/getUserByToken";
 import { useNavigate } from "react-router";

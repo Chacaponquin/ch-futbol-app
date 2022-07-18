@@ -10,8 +10,6 @@ const CreateTeam = () => {
 
   const changeNextSection = () => setActiveSection(activeSection + 1);
 
-  const changePrevSection = () => setActiveSection(activeSection - 1);
-
   return (
     <div className="w-full overflow-x-hidden">
       <div className="w-[300vw] flex">

@@ -10,6 +10,7 @@ import {
   AllPlayers,
   BlogViewArticle,
   Dashboard,
+  Messages,
 } from "../../containers/index";
 import UserContext from "../../context/UserContext";
 import Error404 from "../Error404";
@@ -33,6 +34,7 @@ const AppRoutes = () => {
         <Route path="/createTeam" element={<CreateTeam />} />
         <Route path="/createPlayer" element={<CreatePlayer />} />
         <Route path="/allPlayers" element={<AllPlayers />} />
+        <Route path="/messages" element={<Messages />} />
         <Route path="/dashboard" element={<Dashboard />} />
 
         <Route path="/blog" element={<BlogHome />} />
