@@ -6,7 +6,7 @@ import Home from "./Home/Home";
 import CreatePlayer from "./CreatePlayer/CreatePlayer";
 import AllPlayers from "./AllPlayers/AllPlayers";
 import Dashboard from "./Dashboard/Dashboard";
-import Messages from "./Messages/Messages";
+import Messages from "./Messages/Messages/Messages";
 import Login from "./Auth/Login/Login";
 
 export {

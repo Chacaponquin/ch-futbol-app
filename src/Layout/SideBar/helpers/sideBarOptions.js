@@ -6,7 +6,6 @@ export const sideBarOptionsObject = {
       label: "My Player",
     },
     { url: "/offerts", icon: "checkmark", label: "Ofertas" },
-    { url: "/chat", icon: "message-simple", label: "Messages" },
     { url: "/messages", icon: "message-simple", label: "Messages" },
     {
       url: "/notifications",
