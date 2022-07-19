@@ -2,7 +2,11 @@ import { useQuery } from "@apollo/client";
 import React, { createContext, useState } from "react";
 import { getUserByToken } from "../graphql/User/getUserByToken";
 
-const UserContext = createContext({ actualUser: null, setActualUser: null });
+const UserContext = createContext({
+  actualUser: null,
+  setActualUser: null,
+  getUserLoading: true,
+});
 
 const UserProvider = ({ children }) => {
   const [actualUser, setActualUser] = useState(null);
@@ -17,12 +21,20 @@ const UserProvider = ({ children }) => {
       setActualUser(getUserByToken);
     },
     onError: (error) => {
+      const err = error?.graphQLErrors[0]?.extensions?.exception;
+
+      if (err) {
+        if (err.statusCode === 404) {
+          localStorage.removeItem("token");
+        }
+      }
+
       setActualUser(null);
     },
   });
 
   return (
-    <UserContext.Provider value={{ actualUser, setActualUser }}>
+    <UserContext.Provider value={{ actualUser, setActualUser, getUserLoading }}>
       {children}
     </UserContext.Provider>
   );

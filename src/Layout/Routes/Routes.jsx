@@ -12,13 +12,23 @@ import {
   Dashboard,
   Messages,
   Login,
+  CreateTrainer,
 } from "../../containers/index";
 import UserContext from "../../context/UserContext";
+import Loader from "../../shared/Loader/Loader";
 import { Error404 } from "../index";
 import App from "./App";
 
 const AppRoutes = () => {
-  const { actualUser } = useContext(UserContext);
+  const { actualUser, getUserLoading } = useContext(UserContext);
+
+  if (getUserLoading) {
+    return (
+      <div className="flex w-full h-screen bg-white items-center justify-center">
+        <Loader className="w-[250px]" />
+      </div>
+    );
+  }
 
   return (
     <Routes>
@@ -38,6 +48,8 @@ const AppRoutes = () => {
         />
         <Route path="/createTeam" element={<CreateTeam />} />
         <Route path="/createPlayer" element={<CreatePlayer />} />
+        <Route path="/createTrainer" element={<CreateTrainer />} />
+
         <Route path="/allPlayers" element={<AllPlayers />} />
         <Route
           path="/messages"

@@ -8,6 +8,7 @@ import AllPlayers from "./AllPlayers/AllPlayers";
 import Dashboard from "./Dashboard/Dashboard";
 import Messages from "./Messages/Messages/Messages";
 import Login from "./Auth/Login/Login";
+import CreateTrainer from "./CreateTrainer/CreateTrainer";
 
 export {
   Home,
@@ -20,4 +21,5 @@ export {
   Dashboard,
   Messages,
   Login,
+  CreateTrainer,
 };

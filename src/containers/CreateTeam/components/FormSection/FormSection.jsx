@@ -1,6 +1,7 @@
 import { useFormHook } from "../../hooks/useFormHook";
 import { Select } from "antd";
 import Loader from "../../../../shared/Loader/Loader";
+import { buttonClass, headerClass } from "../../helpers/classes";
 const { Option } = Select;
 
 const FormSection = ({ setTeamID, changeNextSection }) => {
@@ -13,20 +14,16 @@ const FormSection = ({ setTeamID, changeNextSection }) => {
   } = useFormHook(setTeamID, changeNextSection);
 
   return (
-    <div className="w-full px-20">
-      <div className="bg-slate-100 py-6 px-10 w-full">
-        <button className="text-2xl cursor-pointer w-full text-left font-monserratBold">
-          Initial Form
-        </button>
+    <div className="bg-slate-100 py-6 px-10 w-full">
+      <h1 className={headerClass}>Initial Form</h1>
 
-        <InitialForm
-          freeLeagues={freeLeagues?.findAvailibleLeagues}
-          onSubmit={onSubmit}
-          onSelectChange={onSelectChange}
-          handleChange={handleChange}
-          createTeamLoading={createTeamLoading}
-        />
-      </div>
+      <InitialForm
+        freeLeagues={freeLeagues?.findAvailibleLeagues}
+        onSubmit={onSubmit}
+        onSelectChange={onSelectChange}
+        handleChange={handleChange}
+        createTeamLoading={createTeamLoading}
+      />
     </div>
   );
 };
@@ -41,7 +38,7 @@ const InitialForm = ({
   return (
     <div>
       <form className="pt-5" onSubmit={onSubmit}>
-        <div className="flex flex-col mb-4 pt-4">
+        <div className="flex flex-col mb-4">
           <label htmlFor="" className="text-xl font-bold mb-2">
             Name
           </label>
@@ -84,10 +81,7 @@ const InitialForm = ({
           {createTeamLoading ? (
             <Loader className="w-[80px]" />
           ) : (
-            <button
-              type="submit"
-              className="font-bold py-2 px-7 text-lg bg-primary_color text-white"
-            >
+            <button type="submit" className={buttonClass}>
               Submit
             </button>
           )}

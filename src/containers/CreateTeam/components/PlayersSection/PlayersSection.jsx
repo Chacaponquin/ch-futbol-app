@@ -1,3 +1,4 @@
+import { headerClass } from "../../helpers/classes";
 import { usePlayersHook } from "../../hooks/usePlayersHook";
 
 import PlayersContainer from "./components/PlayersContainer";
@@ -19,26 +20,22 @@ const PlayersSection = ({ teamID }) => {
   } = usePlayersHook(teamID);
 
   return (
-    <div className="w-full px-20">
-      <div className="bg-slate-100 py-6 px-10 w-full">
-        <button className="font-monserratBold text-2xl cursor-pointer w-full text-left">
-          Players
-        </button>
+    <div className="bg-slate-100 py-6 px-10 w-full">
+      <h1 className={headerClass}>Players</h1>
 
-        <PlayerSelectSection
-          freePlayers={freePlayers}
-          ownPlayers={ownPlayers}
-          selectedPlayer={selectedPlayer}
-          playerSelectClass={playerSelectClass}
-          handleSelectPlayer={handleSelectPlayer}
-          handleTransferPlayer={handleTransferPlayer}
-          ownPlayersLoading={ownPlayersLoading}
-          changePlayerLoading={changePlayerLoading}
-          freePlayersLoading={freePlayersLoading}
-          setFreePlayers={setFreePlayers}
-          setOwnPlayers={setOwnPlayers}
-        />
-      </div>
+      <PlayerSelectSection
+        freePlayers={freePlayers}
+        ownPlayers={ownPlayers}
+        selectedPlayer={selectedPlayer}
+        playerSelectClass={playerSelectClass}
+        handleSelectPlayer={handleSelectPlayer}
+        handleTransferPlayer={handleTransferPlayer}
+        ownPlayersLoading={ownPlayersLoading}
+        changePlayerLoading={changePlayerLoading}
+        freePlayersLoading={freePlayersLoading}
+        setFreePlayers={setFreePlayers}
+        setOwnPlayers={setOwnPlayers}
+      />
     </div>
   );
 };
