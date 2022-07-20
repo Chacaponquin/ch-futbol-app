@@ -83,10 +83,11 @@ const UserInfSection = ({ username, image, isAdmin }) => {
 
         {openOptions && (
           <div className="absolute translate-y-[105%] w-[250px] rounded-md shadow-lg bg-white px-4 py-3 flex flex-col gap-1 z-50">
-            {userOptions.map((opt) => (
+            {userOptions.map((opt, i) => (
               <NavLink
                 className="flex items-center px-5 gap-4 cursor-pointer py-2"
                 to={opt.url}
+                key={i}
               >
                 <Icon glyph={opt.icon} />
                 <p className="mb-0 font-bold">{opt.label}</p>

@@ -6,7 +6,7 @@ const PlayerCard = ({ image, fullName }) => {
       <motion.img
         src={image}
         alt={fullName}
-        className="rounded-full mr-5 w-14 h-14"
+        className="rounded-full mr-5 w-[40px] h-[40px]"
       />
       <motion.p className="font-bold mb-0">{fullName}</motion.p>
     </>

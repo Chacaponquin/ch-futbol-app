@@ -21,7 +21,10 @@ const CreateTeam = () => {
         </CreateTeamSection>
 
         <CreateTeamSection activeSection={activeSection}>
-          <TrainerSection changeNextSection={changeNextSection} />
+          <TrainerSection
+            changeNextSection={changeNextSection}
+            teamID={teamID}
+          />
         </CreateTeamSection>
 
         <CreateTeamSection activeSection={activeSection}>
@@ -35,7 +38,7 @@ const CreateTeam = () => {
 const CreateTeamSection = ({ children, activeSection }) => {
   return (
     <div
-      className="w-[100vw] duration-500 flex xl:px-80 h-max esm:px-4 sm:px-14 md:px-32 lg:px-60"
+      className="w-[100vw] duration-500 flex xl:px-64 h-max esm:px-4 sm:px-14 md:px-20 lg:px-48"
       style={{ transform: `translateX(-${activeSection * 100}vw)` }}
     >
       {children}

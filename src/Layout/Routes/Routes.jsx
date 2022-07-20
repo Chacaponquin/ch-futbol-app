@@ -46,7 +46,16 @@ const AppRoutes = () => {
           path="/"
           element={actualUser ? <Navigate to="/dashboard" /> : <Home />}
         />
-        <Route path="/createTeam" element={<CreateTeam />} />
+        <Route
+          path="/createTeam"
+          element={
+            actualUser && actualUser.isAdmin ? (
+              <CreateTeam />
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
         <Route path="/createPlayer" element={<CreatePlayer />} />
         <Route path="/createTrainer" element={<CreateTrainer />} />
 

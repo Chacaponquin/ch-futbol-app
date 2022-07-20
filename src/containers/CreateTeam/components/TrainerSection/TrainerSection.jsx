@@ -1,14 +1,28 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Checkbox } from "antd";
 import React, { useState } from "react";
 import { getFreeTrainers } from "../../../../graphql/Trainer/getFreeTrainers";
 import noDataPucture from "../../../../assets/images/no-data.png";
 import clsx from "clsx";
 import { buttonClass, headerClass } from "../../helpers/classes";
+import { createOffert } from "../../../../graphql/Offerts/createOffert";
+import { useContext } from "react";
+import UserContext from "../../../../context/UserContext";
+import { showError } from "../../../../helpers/showNotifications";
+import SubmitButton from "../SubmitButton";
 
-const TrainerSection = ({ changeNextSection }) => {
+const TrainerSection = ({ changeNextSection, teamID }) => {
+  const { actualUser } = useContext(UserContext);
+
   const [freeTrainers, setFreeTrainers] = useState([]);
   const [selectedTrainers, setSelectedTrainers] = useState([]);
+
+  const [createTrainerOfferts, { loading: createOffertsLoading }] =
+    useMutation(createOffert);
+
+  useQuery(getFreeTrainers, {
+    onCompleted: ({ getFreeTrainers }) => setFreeTrainers(getFreeTrainers),
+  });
 
   const handleSelectTrainer = (ev, id) => {
     if (ev.target.checked) setSelectedTrainers([...selectedTrainers, id]);
@@ -18,9 +32,21 @@ const TrainerSection = ({ changeNextSection }) => {
     }
   };
 
-  useQuery(getFreeTrainers, {
-    onCompleted: ({ getFreeTrainers }) => setFreeTrainers(getFreeTrainers),
-  });
+  const handleSubmit = () => {
+    createTrainerOfferts({
+      variables: {
+        offert: {
+          type: "TRAINER",
+          owner: actualUser._id,
+          salary: 0,
+          to: selectedTrainers,
+          team: teamID,
+        },
+      },
+      onCompleted: () => changeNextSection(),
+      onError: showError,
+    });
+  };
 
   const trainerDivClass = (id) => {
     const find = selectedTrainers.find((el) => el === id);
@@ -50,15 +76,13 @@ const TrainerSection = ({ changeNextSection }) => {
         />
       </div>
 
-      <div className="flex justify-end">
-        <button
-          className={trainerButtonClass}
-          onClick={changeNextSection}
-          disabled={selectedTrainers.length > 0 ? false : true}
-        >
-          Next
-        </button>
-      </div>
+      <SubmitButton
+        className={trainerButtonClass}
+        text="Next"
+        onClick={handleSubmit}
+        disabled={selectedTrainers.length > 0 ? false : true}
+        loading={createOffertsLoading}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useFormHook } from "../../hooks/useFormHook";
 import { Select } from "antd";
-import Loader from "../../../../shared/Loader/Loader";
+import SubmitButton from "../SubmitButton";
 import { buttonClass, headerClass } from "../../helpers/classes";
 const { Option } = Select;
 
@@ -18,7 +18,7 @@ const FormSection = ({ setTeamID, changeNextSection }) => {
       <h1 className={headerClass}>Initial Form</h1>
 
       <InitialForm
-        freeLeagues={freeLeagues?.findAvailibleLeagues}
+        freeLeagues={freeLeagues}
         onSubmit={onSubmit}
         onSelectChange={onSelectChange}
         handleChange={handleChange}
@@ -29,7 +29,7 @@ const FormSection = ({ setTeamID, changeNextSection }) => {
 };
 
 const InitialForm = ({
-  freeLeagues = [],
+  freeLeagues,
   onSubmit,
   onSelectChange,
   createTeamLoading,
@@ -40,7 +40,7 @@ const InitialForm = ({
       <form className="pt-5" onSubmit={onSubmit}>
         <div className="flex flex-col mb-4">
           <label htmlFor="" className="text-xl font-bold mb-2">
-            Name
+            Name:
           </label>
           <input
             className="p-3 border-2 focus:border-primary_color rounded-md"
@@ -53,10 +53,10 @@ const InitialForm = ({
 
         <div className="flex flex-col mb-4">
           <label htmlFor="" className="text-xl font-bold mb-2">
-            League
+            League:
           </label>
 
-          {freeLeagues ? (
+          {freeLeagues.length > 0 ? (
             <Select
               showSearch
               placeholder="Search to Select"
@@ -73,19 +73,15 @@ const InitialForm = ({
               ))}
             </Select>
           ) : (
-            <h1 className="mb-0 text-2xl pt-3">No hay Ligas disponibles</h1>
+            <h1 className="mb-0 text-xl">No hay Ligas disponibles</h1>
           )}
         </div>
 
-        <div className="flex w-full justify-end">
-          {createTeamLoading ? (
-            <Loader className="w-[80px]" />
-          ) : (
-            <button type="submit" className={buttonClass}>
-              Submit
-            </button>
-          )}
-        </div>
+        <SubmitButton
+          loading={createTeamLoading}
+          text={"Next"}
+          className={buttonClass}
+        />
       </form>
     </div>
   );

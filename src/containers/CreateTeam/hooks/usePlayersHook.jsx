@@ -1,77 +1,80 @@
-import { useState } from "react";
-import {
-  fetchFreePlayers,
-  fetchOwnPlayers,
-  transferPlayer,
-} from "../../../graphql";
+import { useContext, useState } from "react";
+import { fetchFreePlayers } from "../../../graphql";
 import clsx from "clsx";
 import { useQuery, useMutation } from "@apollo/client";
-import { showError } from "../../../helpers/showNotifications";
+import { showError, showSucces } from "../../../helpers/showNotifications";
+import { createOffert } from "../../../graphql/Offerts/createOffert";
+import UserContext from "../../../context/UserContext";
+import { useNavigate } from "react-router";
 
 export const usePlayersHook = (teamID) => {
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const { actualUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const [playerSelect, setPlayerSelect] = useState(null);
   const [freePlayers, setFreePlayers] = useState([]);
-  const [ownPlayers, setOwnPlayers] = useState([]);
+  const [selectedPlayers, setSelectedPlayers] = useState([]);
 
   const { loading: freePlayersLoading } = useQuery(fetchFreePlayers, {
     onError: showError,
     onCompleted: ({ findFreePlayers }) => setFreePlayers(findFreePlayers),
   });
 
-  const { loading: ownPlayersLoading } = useQuery(fetchOwnPlayers, {
-    variables: { team: { teamID } },
-    onError: showError,
-    onCompleted: ({ fetchOwnPlayers }) => {
-      setOwnPlayers(fetchOwnPlayers);
-    },
-  });
-
-  const [changePlayer, { loading: changePlayerLoading }] = useMutation(
-    transferPlayer,
-    {
-      variables: {
-        data: { teamTo: teamID, player: selectedPlayer },
-      },
-      onError: showError,
-      refetchQueries: [
-        { query: fetchFreePlayers },
-        {
-          query: fetchOwnPlayers,
-          variables: { team: { teamID } },
-        },
-      ],
-    }
-  );
+  const [createPlayerOffert, { loading: createOffertLoading }] =
+    useMutation(createOffert);
 
   const handleTransferPlayer = () => {
-    changePlayer();
+    if (playerSelect) {
+      setSelectedPlayers([...selectedPlayers, playerSelect]);
+
+      const filt = freePlayers.filter((el) => el !== playerSelect);
+      setFreePlayers(filt);
+    }
   };
 
-  const handleSelectPlayer = (id) => {
-    setSelectedPlayer(id);
+  const handleSelectPlayer = (player) => {
+    setPlayerSelect(player);
+  };
+
+  const handleSubmit = () => {
+    createPlayerOffert({
+      variables: {
+        offert: {
+          salary: 0,
+          owner: actualUser._id,
+          team: teamID,
+          to: selectedPlayers.map((el) => el._id),
+          type: "PLAYER",
+        },
+      },
+      onError: showError,
+      onCompleted: () => {
+        showSucces({ header: "Éxito", description: "Equipo creado con éxito" });
+        navigate("/dashboard");
+      },
+    });
   };
 
   const playerSelectClass = (id) => {
     return clsx(
-      "flex items-center p-4 rounded-xl cursor-pointer",
-      selectedPlayer === id ? "bg-primary_color text-white" : ""
+      "flex items-center py-3 px-4 rounded-md cursor-pointer ",
+      playerSelect && playerSelect._id === id
+        ? "bg-primary_color text-white"
+        : ""
     );
   };
 
   return {
     handleSelectPlayer,
-
+    handleSubmit,
+    createOffertLoading,
     handleTransferPlayer,
     playerSelectClass,
     setFreePlayers,
-    setOwnPlayers,
-
+    setSelectedPlayers,
     freePlayers,
-    ownPlayers,
-    selectedPlayer,
-
-    ownPlayersLoading,
-    changePlayerLoading,
+    selectedPlayers,
+    playerSelect,
     freePlayersLoading,
   };
 };

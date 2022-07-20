@@ -1,8 +1,8 @@
-import { headerClass } from "../../helpers/classes";
+import { buttonClass, headerClass } from "../../helpers/classes";
 import { usePlayersHook } from "../../hooks/usePlayersHook";
-
 import PlayersContainer from "./components/PlayersContainer";
 import SwitchButton from "./components/SwitchButton";
+import SubmitButton from "../SubmitButton";
 
 const PlayersSection = ({ teamID }) => {
   const {
@@ -10,31 +10,36 @@ const PlayersSection = ({ teamID }) => {
     handleTransferPlayer,
     playerSelectClass,
     freePlayers,
-    ownPlayers,
-    selectedPlayer,
-    ownPlayersLoading,
-    changePlayerLoading,
     freePlayersLoading,
     setFreePlayers,
-    setOwnPlayers,
+    playerSelect,
+    handleSubmit,
+    createOffertLoading,
+    selectedPlayers,
+    setSelectedPlayers,
   } = usePlayersHook(teamID);
 
   return (
-    <div className="bg-slate-100 py-6 px-10 w-full">
+    <div className="bg-slate-100 py-6 px-10 w-full flex flex-col gap-5">
       <h1 className={headerClass}>Players</h1>
 
       <PlayerSelectSection
+        selectedPlayers={selectedPlayers}
         freePlayers={freePlayers}
-        ownPlayers={ownPlayers}
-        selectedPlayer={selectedPlayer}
+        playerSelect={playerSelect}
         playerSelectClass={playerSelectClass}
         handleSelectPlayer={handleSelectPlayer}
         handleTransferPlayer={handleTransferPlayer}
-        ownPlayersLoading={ownPlayersLoading}
-        changePlayerLoading={changePlayerLoading}
         freePlayersLoading={freePlayersLoading}
         setFreePlayers={setFreePlayers}
-        setOwnPlayers={setOwnPlayers}
+        setSelectedPlayers={setSelectedPlayers}
+      />
+
+      <SubmitButton
+        onClick={handleSubmit}
+        className={buttonClass}
+        loading={createOffertLoading}
+        text={"Submit"}
       />
     </div>
   );
@@ -42,36 +47,28 @@ const PlayersSection = ({ teamID }) => {
 
 const PlayerSelectSection = ({
   playerSelectClass,
-  selectedPlayer,
+  playerSelect,
   freePlayers,
-  ownPlayers,
   handleSelectPlayer,
   handleTransferPlayer,
-  ownPlayersLoading,
-  changePlayerLoading,
   freePlayersLoading,
   setFreePlayers,
-  setOwnPlayers,
+  setSelectedPlayers,
+  selectedPlayers,
 }) => {
   return (
-    <div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transitionDelay: 10 }}
-      exit={{ opacity: 0 }}
-    >
-      <div className="flex esm:flex-col sm:flex-col md:flex-row w-full h-[500px] items-center pt-5 md:space-x-4 esm:space-y-4 sm:space-y-4">
+    <div>
+      <div className="flex esm:flex-col sm:flex-col lg:flex-row w-full items-center lg:space-x-4 esm:space-y-4 sm:space-y-4">
         <PlayersContainer
-          players={ownPlayers}
-          loading={ownPlayersLoading}
+          players={selectedPlayers}
           playerSelectClass={playerSelectClass}
           handleSelectPlayer={handleSelectPlayer}
-          setPlayers={setOwnPlayers}
+          setPlayers={setSelectedPlayers}
           message={"No tienes jugadores en tu equipo"}
         />
 
         <SwitchButton
-          loading={changePlayerLoading}
-          selectedPlayer={selectedPlayer}
+          selectedPlayer={playerSelect}
           handleTransferPlayer={handleTransferPlayer}
         />
 
