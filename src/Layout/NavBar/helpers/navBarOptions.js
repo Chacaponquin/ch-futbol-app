@@ -7,8 +7,10 @@ export const navBarOptions = {
     },
   ],
   MANAGER_OPTIONS: [
-    { url: "/allPlayers", icon: "profile", label: "All Players" },
+    { url: "/allPlayers", icon: "analytics", label: "All Players" },
     { url: "/createTeam", icon: "event-add", label: "Create Team" },
+    { url: "/createTeam", icon: "member-add", label: "Create Player" },
+    { url: "/createTrainer", icon: "friend", label: "Create Trainer" },
   ],
   SUPER_USER_OPTIONS: [],
 };

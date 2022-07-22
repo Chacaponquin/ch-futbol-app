@@ -4,20 +4,28 @@ import { getUserByToken } from "../graphql/User/getUserByToken";
 
 const UserContext = createContext({
   actualUser: null,
-  setActualUser: null,
+  signInUser: () => {},
   getUserLoading: true,
+  elementActive: null,
 });
 
 const UserProvider = ({ children }) => {
   const [actualUser, setActualUser] = useState(null);
 
-  const token = localStorage.getItem("token");
+  const [elementActive, setElementActive] = useState(null);
+
+  const signInUser = (user, callback) => {
+    setActualUser(user);
+
+    callback();
+  };
 
   const { loading: getUserLoading } = useQuery(getUserByToken, {
-    variables: {
-      token: token ? token : null,
-    },
     onCompleted: ({ getUserByToken }) => {
+      if (getUserByToken.elementsOwner.length > 0) {
+        setElementActive(getUserByToken.elementsOwner[0]);
+      }
+
       setActualUser(getUserByToken);
     },
     onError: (error) => {
@@ -34,7 +42,9 @@ const UserProvider = ({ children }) => {
   });
 
   return (
-    <UserContext.Provider value={{ actualUser, setActualUser, getUserLoading }}>
+    <UserContext.Provider
+      value={{ actualUser, signInUser, getUserLoading, elementActive }}
+    >
       {children}
     </UserContext.Provider>
   );

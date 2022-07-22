@@ -103,7 +103,7 @@ const ExpandCard = ({
           <BsX onClick={handleOpenCard} />
         </div>
 
-        <div className="grid md:grid-cols-2 md:grid-rows-1 grid-rows-2 grid-cols-1 items-center">
+        <div className="grid md:grid-cols-2 md:grid-rows-1 grid-rows-2 grid-cols-1">
           <div className="flex items-center justify-center">
             <img
               src={image}

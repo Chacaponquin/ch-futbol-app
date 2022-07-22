@@ -32,4 +32,5 @@ export const sideBarOptionsObject = {
       label: "Notifications",
     },
   ],
+  MANAGER_OPTIONS: [],
 };

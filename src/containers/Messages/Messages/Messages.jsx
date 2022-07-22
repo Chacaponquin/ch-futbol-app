@@ -7,7 +7,7 @@ import MessagesSectionHeader from "./components/MessagesSectionHeader";
 import MessageCard from "./components/MessageCard";
 import { useMessagesHooks } from "./hooks/useMessagesHook";
 
-const Messages = () => {
+const Messages = ({ typeQuery }) => {
   const {
     openMessage,
     selectedMessages,
@@ -66,6 +66,7 @@ const Messages = () => {
             selectedMessages={selectedMessages}
             handleDeleteMessages={handleDeleteMessages}
             loading={deleteMessagesLoading}
+            typeQuery={typeQuery}
           />
           {userMessages.length > 0 && (
             <FilterMessages handleFilterMessage={handleFilterMessage} />

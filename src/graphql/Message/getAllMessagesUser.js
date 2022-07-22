@@ -1,18 +1,24 @@
 import { gql } from "@apollo/client";
 
 export const getAllMessagesUser = gql`
-  query ($id: ID!) {
-    getAllMessagesUser(userID: $id) {
-      content
-      from {
-        username
-        _id
-        image
-        isAdmin
-        role
-      }
+  query {
+    getAllMessagesUser {
       _id
-      title
+      from {
+        __typename
+        ... on Player {
+          playerID: image
+        }
+        ... on Team {
+          leagueID: league
+        }
+        ... on Trainer {
+          trainerID: _id
+        }
+        ... on User {
+          userID: _id
+        }
+      }
     }
   }
 `;

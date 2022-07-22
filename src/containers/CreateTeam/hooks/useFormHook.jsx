@@ -1,12 +1,10 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { useContext, useState } from "react";
-import UserContext from "../../../context/UserContext";
+import { useState } from "react";
+
 import { findAvailableLeagues, createTeamMutation } from "../../../graphql";
 import { showError } from "../../../helpers/showNotifications";
 
 export const useFormHook = (setTeamID, changeNextSection) => {
-  const { actualUser } = useContext(UserContext);
-
   const [freeLeagues, setFreeLeagues] = useState([]);
 
   const [teamInf, setTeamInf] = useState({
@@ -31,7 +29,7 @@ export const useFormHook = (setTeamID, changeNextSection) => {
         throw new Error("Debes elegir una liga");
       }
       newTeam({
-        variables: { team: { ...teamInf, owner: actualUser._id } },
+        variables: { team: teamInf },
         onCompleted: ({ createTeam }) => {
           setTeamID(createTeam);
 

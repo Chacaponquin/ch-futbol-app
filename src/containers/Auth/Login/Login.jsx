@@ -4,23 +4,18 @@ import { loginUser } from "../../../graphql/User/loginUser";
 import { showError } from "../../../helpers/showNotifications";
 import Loader from "../../../shared/Loader/Loader";
 import UserContext from "../../../context/UserContext";
+import { useNavigate } from "react-router";
 
 const Login = () => {
-  const { setActualUser } = useContext(UserContext);
+  const { signInUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState({
     email: null,
     password: null,
   });
 
-  const [loginUserQuery, { loading }] = useLazyQuery(loginUser, {
-    onCompleted: ({ loginUser }) => {
-      console.log(loginUser);
-      localStorage.setItem("token", loginUser.token);
-      setActualUser(loginUser);
-    },
-    onError: showError,
-  });
+  const [loginUserQuery, { loading }] = useLazyQuery(loginUser);
 
   const inputClass = "rounded-md mt-2 px-7 py-3 font-semibold w-full esm:px-4";
   const labelClass = "font-bold text-xl text-white block esm:text-lg";
@@ -32,7 +27,17 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    loginUserQuery({ variables: { user: loginData } });
+    loginUserQuery({
+      variables: { user: loginData },
+      onCompleted: ({ loginUser }) => {
+        localStorage.setItem("token", loginUser.token);
+
+        signInUser(loginUser, () =>
+          navigate({ pathname: "/blog" }, { replace: true })
+        );
+      },
+      onError: showError,
+    });
   };
 
   return (

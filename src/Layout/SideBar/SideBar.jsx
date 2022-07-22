@@ -34,6 +34,9 @@ const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
         case userRoles.CLUB_OWNER:
           setNavBarOptions(sideBarOptionsObject.OWNER_OPTIONS);
           break;
+        case userRoles.MANAGER:
+          setNavBarOptions(sideBarOptionsObject.MANAGER_OPTIONS);
+          break;
         default:
           break;
       }

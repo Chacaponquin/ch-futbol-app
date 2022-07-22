@@ -1,14 +1,16 @@
-import { useContext, useState } from "react";
-import { useMutation, useLazyQuery } from "@apollo/client";
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
 import { createUserMutation } from "../../../../graphql/User/createUserMutation";
 import { showError } from "../../../../helpers/showNotifications";
 import { validateSignUp } from "../helpers/validateSignUp";
-import UserContext from "../../../../context/UserContext";
-import { getUserByToken } from "../../../../graphql/User/getUserByToken";
 import { useNavigate } from "react-router";
 import { userRoles } from "../../../../helpers/userRoles";
+import { useContext } from "react";
+import UserContext from "../../../../context/UserContext";
 
 export const useSignUp = () => {
+  const { signInUser } = useContext(UserContext);
+
   const [userInf, setUserInf] = useState({
     username: null,
     password: null,
@@ -19,11 +21,7 @@ export const useSignUp = () => {
 
   const navigate = useNavigate();
 
-  const { setActualUser } = useContext(UserContext);
-
   const [newUser, { loading }] = useMutation(createUserMutation);
-
-  const [updateContext] = useLazyQuery(getUserByToken);
 
   const handleSubmit = (role) => {
     try {
@@ -42,29 +40,18 @@ export const useSignUp = () => {
         onCompleted: ({ createUser }) => {
           localStorage.setItem("token", createUser.token);
 
-          updateContext({
-            variables: {
-              token: createUser.token,
-            },
-            onCompleted: ({ getUserByToken }) => {
-              setActualUser(getUserByToken);
-
-              switch (role) {
-                case userRoles.PLAYER:
-                  navigate("/createPlayer", { replace: true });
-                  break;
-                case userRoles.TRAINER:
-                  navigate("/");
-                  break;
-                case userRoles.CLUB_OWNER:
-                  navigate("/createTeam");
-                  break;
-                default:
-                  break;
-              }
-            },
-            onError: showError,
-          });
+          if (role === userRoles.PLAYER)
+            signInUser(createUser, () =>
+              navigate({ pathname: "/createPlayer" }, { replace: true })
+            );
+          else if (role === userRoles.TRAINER)
+            signInUser(createUser, () =>
+              navigate({ pathname: "/createTrainer" }, { replace: true })
+            );
+          else if (role === userRoles.CLUB_OWNER)
+            signInUser(createUser, () =>
+              navigate({ pathname: "/createTeam" }, { replace: true })
+            );
         },
         onError: showError,
       });

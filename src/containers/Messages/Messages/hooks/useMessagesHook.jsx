@@ -15,13 +15,21 @@ export const useMessagesHooks = () => {
   const [openMessage, setOpenMessage] = useState(null);
 
   const { loading: getMessagesLoading } = useQuery(getAllMessagesUser, {
-    variables: { id: actualUser._id },
+    variables: {
+      element: {
+        id: actualUser._id,
+        type: actualUser.role,
+      },
+    },
     onError: (error) => {
+      console.log(error);
       showError(error);
       navigate("/dashboard");
     },
-    onCompleted: ({ getAllMessagesUser }) =>
-      setUserMessages(getAllMessagesUser),
+    onCompleted: ({ getAllMessagesUser }) => {
+      console.log(getAllMessagesUser);
+      //setUserMessages(getAllMessagesUser),
+    },
   });
 
   const [deleteMessages, { loading: deleteMessagesLoading }] =

@@ -21,7 +21,6 @@ const httpLink = new HttpLink({
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   const token = localStorage.getItem("token");
-  // add the authorization to the headers
   operation.setContext({
     headers: {
       authorization: token ? `bearer ${token}` : null,
