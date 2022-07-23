@@ -1,5 +1,5 @@
 import { SwapOutlined } from "@ant-design/icons";
-import Loader from "../../../../../shared/Loader/Loader";
+import Loader from "../../../../../../shared/Loader/Loader";
 
 const SwitchButton = ({ loading, selectedPlayer, handleTransferPlayer }) => {
   return (

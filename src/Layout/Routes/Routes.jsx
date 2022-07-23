@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Route, Routes, Navigate } from "react-router";
+import { Route, Routes } from "react-router";
 
 import {
   Home,
@@ -13,6 +13,7 @@ import {
   Messages,
   Login,
   CreateTrainer,
+  CreateLeague,
 } from "../../containers/index";
 
 import { TYPES_MESSAGE_QUERY } from "../../containers/Messages/Messages/helpers/typeMessageQuery";
@@ -51,6 +52,10 @@ const AppRoutes = () => {
         <Route
           path="/createTrainer"
           element={<UserRoute children={<CreateTrainer />} />}
+        />
+        <Route
+          path="/createLeague"
+          element={<AdminRoute children={<CreateLeague />} />}
         />
 
         <Route

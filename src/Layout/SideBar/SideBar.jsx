@@ -12,7 +12,7 @@ const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
   const [navBarOptions, setNavBarOptions] = useState([]);
 
   const sideBarClass = clsx(
-    "fixed w-[280px] h-screen bg-slate-100 top-0 flex flex-col p-4 transition-all duration-500 z-20",
+    "fixed w-[280px] h-screen bg-slate-50 top-0 flex flex-col p-4 transition-all duration-500 z-20",
     { "translate-x-0": sideBarOpen },
     { "-translate-x-[100%]": !sideBarOpen }
   );

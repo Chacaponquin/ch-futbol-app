@@ -2,14 +2,13 @@ import { DatePicker } from "antd";
 import React, { useRef, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import { Select } from "antd";
-import { playerPositions } from "../../helpers/playerPositions";
-import { countryList } from "../../helpers/allCountries";
-import { showError } from "../../helpers/showNotifications";
-import ProgressBar from "./components/ProgressBar";
-import { useMutation } from "@apollo/client";
-import { createPlayer } from "../../graphql/Players/createPlayer";
+import { playerPositions } from "../../../helpers/playerPositions";
+import { showError } from "../../../helpers/showNotifications";
+import { useMutation, useQuery } from "@apollo/client";
+import { createPlayer } from "../../../graphql/Players/createPlayer";
 import axios from "axios";
-import Loader from "../../shared/Loader/Loader";
+import Loader from "../../../shared/Loader/Loader";
+import { getAllCountries } from "../../../graphql/Extra/getAllCountries";
 
 const { Option } = Select;
 
@@ -17,8 +16,8 @@ const CreatePlayer = () => {
   const selectClass = "esm:w-[100%] sm:w-52 md:w-72 lg:w-80 xl:w-96 rounded-md";
   const [showImage, setShowImage] = useState(null);
   const [playerImage, setPlayerImage] = useState(null);
-
   const [imageLoader, setImageLoader] = useState(false);
+  const [countryList, setCountryList] = useState([]);
 
   const [playerData, setPlayerData] = useState({
     birth: null,
@@ -43,6 +42,11 @@ const CreatePlayer = () => {
   const onGenderChange = (value) => {
     setPlayerData({ ...playerData, gender: value });
   };
+
+  useQuery(getAllCountries, {
+    onCompleted: ({ getCountryList }) => setCountryList(getCountryList),
+  });
+
   const onImageChange = (e) => {
     const files = e.target.files;
     if (files.length) {
@@ -95,8 +99,6 @@ const CreatePlayer = () => {
       {(loading || imageLoader) && <CreatePlayerLoader />}
 
       <div className="exsm:px-3 esm:px-7 sm:px-10 md:px-20 lg:px-64">
-        <ProgressBar />
-
         <div className="bg-form_bg py-8 px-16 exsm:px-3 esm:px-5 sm:px-10 md:px-16">
           <h1 className="text-2xl font-monserratBold mb-5 exsm:text-center">
             Player Data

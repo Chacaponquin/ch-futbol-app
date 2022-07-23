@@ -15,6 +15,12 @@ export const fetchAllPlayers = gql`
         totalGoals
         totalAssists
       }
+      seasonRecords {
+        yearStart
+        yearFinish
+        assists
+        goals
+      }
     }
   }
 `;

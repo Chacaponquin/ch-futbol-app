@@ -1,14 +1,14 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { Checkbox } from "antd";
 import React, { useState } from "react";
-import { getFreeTrainers } from "../../../../graphql/Trainer/getFreeTrainers";
-import noDataPucture from "../../../../assets/images/no-data.png";
+import { getFreeTrainers } from "../../../../../graphql/Trainer/getFreeTrainers";
+import noDataPucture from "../../../../../assets/images/no-data.png";
 import clsx from "clsx";
 import { buttonClass, headerClass } from "../../helpers/classes";
-import { createOffert } from "../../../../graphql/Offerts/createOffert";
+import { createOffert } from "../../../../../graphql/Offerts/createOffert";
 import { useContext } from "react";
-import UserContext from "../../../../context/UserContext";
-import { showError } from "../../../../helpers/showNotifications";
+import UserContext from "../../../../../context/UserContext";
+import { showError } from "../../../../../helpers/showNotifications";
 import SubmitButton from "../SubmitButton";
 
 const TrainerSection = ({ changeNextSection, teamID }) => {

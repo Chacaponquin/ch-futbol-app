@@ -1,5 +1,5 @@
 import React from "react";
-import Loader from "../../../shared/Loader/Loader";
+import Loader from "../../../../shared/Loader/Loader";
 
 const SubmitButton = ({
   className,

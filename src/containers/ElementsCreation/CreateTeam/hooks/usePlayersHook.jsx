@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import { fetchFreePlayers } from "../../../graphql";
+import { fetchFreePlayers } from "../../../../graphql";
 import clsx from "clsx";
 import { useQuery, useMutation } from "@apollo/client";
-import { showError, showSucces } from "../../../helpers/showNotifications";
-import { createOffert } from "../../../graphql/Offerts/createOffert";
-import UserContext from "../../../context/UserContext";
+import { showError, showSucces } from "../../../../helpers/showNotifications";
+import { createOffert } from "../../../../graphql/Offerts/createOffert";
+import UserContext from "../../../../context/UserContext";
 import { useNavigate } from "react-router";
 
 export const usePlayersHook = (teamID) => {

@@ -1,5 +1,5 @@
 import { Reorder } from "framer-motion";
-import Loader from "../../../../../shared/Loader/Loader";
+import Loader from "../../../../../../shared/Loader/Loader";
 import EmptyPlayersArray from "./EmptyPlayersArray";
 import PlayerCard from "./PlayerCard";
 

@@ -52,7 +52,7 @@ const PlayerRow = ({
           </td>
         ) : (
           <td className="esm:hidden sm:hidden lg:table-cell">
-            <div className="flex justify-center pr-4">
+            <div className="flex justify-center">
               <button className="px-5 py-2 rounded-full bg-success_color text-white cursor-text font-bold w-full">
                 Free
               </button>
@@ -60,7 +60,7 @@ const PlayerRow = ({
           </td>
         )}
         <td
-          className="text-xl pr-6 cursor-pointer chart esm:pr-2"
+          className="text-xl px-4 cursor-pointer chart esm:px-2"
           onClick={() => setStatsOpen(!statsOpen)}
         >
           <BsBarChart />
