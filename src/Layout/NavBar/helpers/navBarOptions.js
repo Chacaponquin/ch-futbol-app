@@ -11,6 +11,11 @@ export const navBarOptions = {
     { url: "/createTeam", icon: "event-add", label: "Create Team" },
     { url: "/createPlayer", icon: "member-add", label: "Create Player" },
     { url: "/createTrainer", icon: "friend", label: "Create Trainer" },
+    {
+      url: "/createLeague",
+      icon: "bank",
+      label: "Create League",
+    },
   ],
   SUPER_USER_OPTIONS: [],
 };
