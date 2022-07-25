@@ -52,7 +52,16 @@ const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
         />
       </div>
 
-      <div className="flex flex-col px-3 mt-5 space-y-1">
+      <div className="flex flex-col px-3 mt-5 gap-1">
+        <div>
+          {actualUser &&
+            !actualUser.isAdmin &&
+            actualUser.elementsOwner.length &&
+            actualUser.elementsOwner.map((el, i) => (
+              <ElementCard element={el} key={i} />
+            ))}
+        </div>
+
         {navBarOptions.map((opt, i) => (
           <NavLink
             to={opt.url}
@@ -70,6 +79,10 @@ const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
       </div>
     </div>
   );
+};
+
+const ElementCard = ({ element }) => {
+  return <div></div>;
 };
 
 export default SideBar;

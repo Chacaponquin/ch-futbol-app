@@ -6,6 +6,7 @@ import FilterMessages from "./components/FilterMessages";
 import MessagesSectionHeader from "./components/MessagesSectionHeader";
 import MessageCard from "./components/MessageCard";
 import { useMessagesHooks } from "./hooks/useMessagesHook";
+import "./messages.css";
 
 const Messages = ({ typeQuery }) => {
   const {
@@ -21,16 +22,20 @@ const Messages = ({ typeQuery }) => {
     handleDeleteSingleMessage,
     handleFilterMessage,
     handleOpenMessage,
-  } = useMessagesHooks();
+  } = useMessagesHooks(typeQuery);
 
   const messageSectionClass = clsx(
     "flex flex-col transition-all duration-500",
-    { "w-full": openMessage === null, "w-[40%]": openMessage !== null }
+    {
+      "w-full": openMessage === null,
+      "xl:w-[45%] xl:flex sm:w-0 esm:w-0 sm:hidden esm:hidden":
+        openMessage !== null,
+    }
   );
 
   const openMessageClass = clsx("transition-all duration-500", {
     "w-0 hidden": openMessage === null,
-    "w-[60%] flex": openMessage !== null,
+    "xl:w-[55%] sm:w-full esm:w-full flex": openMessage !== null,
   });
 
   const deleteButtonClass = clsx(
@@ -43,7 +48,7 @@ const Messages = ({ typeQuery }) => {
     const found = selectedMessages.find((el) => el === id);
 
     return clsx(
-      "w-full flex items-center px-8 transition-all duration-300",
+      "w-full flex items-center px-8 transition-all duration-300 esm:px-3",
       { "bg-slate-100": found },
       { "bg-white": !found }
     );
@@ -52,20 +57,20 @@ const Messages = ({ typeQuery }) => {
   if (getMessagesLoading) {
     return (
       <div className="px-20 w-full flex justify-center esm:px-10">
-        <Loader className="mt-10 w-[200px]" />
+        <Loader className="mt-10 w-[200px] esm:w-[100px]" />
       </div>
     );
   }
 
   return (
-    <div className="w-full px-20">
+    <div className="w-full lg:px-20 esm:px-4 sm:px-9 flex">
       <div className="w-full flex">
         <div className={messageSectionClass}>
           <MessagesSectionHeader
             deleteButtonClass={deleteButtonClass}
             selectedMessages={selectedMessages}
             handleDeleteMessages={handleDeleteMessages}
-            loading={deleteMessagesLoading}
+            deleteLoading={deleteMessagesLoading}
             typeQuery={typeQuery}
           />
           {userMessages.length > 0 && (

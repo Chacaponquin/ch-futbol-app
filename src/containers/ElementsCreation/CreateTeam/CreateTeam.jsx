@@ -1,14 +1,25 @@
+import { useContext, useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import UserContext from "../../../context/UserContext";
+import { userRoles } from "../../../helpers/userRoles";
 import FormSection from "./components/FormSection/FormSection";
 import PlayersSection from "./components/PlayersSection/PlayersSection";
 import TrainerSection from "./components/TrainerSection/TrainerSection";
 
 const CreateTeam = () => {
+  const { actualUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const [teamID, setTeamID] = useState("");
 
   const [activeSection, setActiveSection] = useState(0);
 
   const changeNextSection = () => setActiveSection(activeSection + 1);
+
+  useEffect(() => {
+    if (actualUser.role !== userRoles.CLUB_OWNER) navigate("/dashboard");
+  }, [actualUser, navigate]);
 
   return (
     <div className="w-full overflow-x-hidden">

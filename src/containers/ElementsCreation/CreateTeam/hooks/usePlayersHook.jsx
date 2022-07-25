@@ -44,7 +44,7 @@ export const usePlayersHook = (teamID) => {
           owner: actualUser._id,
           team: teamID,
           to: selectedPlayers.map((el) => el._id),
-          type: "PLAYER",
+          type: "Player",
         },
       },
       onError: showError,

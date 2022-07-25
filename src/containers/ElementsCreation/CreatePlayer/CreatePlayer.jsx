@@ -9,10 +9,18 @@ import { createPlayer } from "../../../graphql/Players/createPlayer";
 import axios from "axios";
 import Loader from "../../../shared/Loader/Loader";
 import { getAllCountries } from "../../../graphql/Extra/getAllCountries";
+import { useEffect } from "react";
+import { useContext } from "react";
+import UserContext from "../../../context/UserContext";
+import { userRoles } from "../../../helpers/userRoles";
+import { useNavigate } from "react-router";
 
 const { Option } = Select;
 
 const CreatePlayer = () => {
+  const navigate = useNavigate();
+
+  const { actualUser } = useContext(UserContext);
   const selectClass = "esm:w-[100%] sm:w-52 md:w-72 lg:w-80 xl:w-96 rounded-md";
   const [showImage, setShowImage] = useState(null);
   const [playerImage, setPlayerImage] = useState(null);
@@ -93,6 +101,10 @@ const CreatePlayer = () => {
       .catch((error) => showError(error))
       .finally(() => setImageLoader(false));
   };
+
+  useEffect(() => {
+    if (actualUser.role !== userRoles.PLAYER) navigate("/dashboard");
+  }, [actualUser, navigate]);
 
   return (
     <div>

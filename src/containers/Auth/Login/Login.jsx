@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/client";
 import React, { useState, useContext } from "react";
-import { loginUser } from "../../../graphql/User/loginUser";
+import { loginUser } from "../../../graphql/User/signInUser";
 import { showError } from "../../../helpers/showNotifications";
 import Loader from "../../../shared/Loader/Loader";
 import UserContext from "../../../context/UserContext";
@@ -30,6 +30,7 @@ const Login = () => {
     loginUserQuery({
       variables: { user: loginData },
       onCompleted: ({ loginUser }) => {
+        console.log(loginUser);
         localStorage.setItem("token", loginUser.token);
 
         signInUser(loginUser, () =>

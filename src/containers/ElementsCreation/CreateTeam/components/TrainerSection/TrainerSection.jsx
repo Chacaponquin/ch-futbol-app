@@ -36,7 +36,7 @@ const TrainerSection = ({ changeNextSection, teamID }) => {
     createTrainerOfferts({
       variables: {
         offert: {
-          type: "TRAINER",
+          type: "Trainer",
           owner: actualUser._id,
           salary: 0,
           to: selectedTrainers,

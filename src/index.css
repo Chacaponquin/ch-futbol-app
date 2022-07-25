@@ -2,26 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 @font-face {
-    font-family: Monserrat;
-    src: url("./assets/font/static/Montserrat-Regular.ttf");
+  font-family: Monserrat;
+  src: url("./assets/font/static/Montserrat-Regular.ttf");
 }
 
 @font-face {
-    font-family: Monserrat-Bold;
-    src: url("./assets/font/static/Montserrat-Bold.ttf");
+  font-family: Monserrat-Bold;
+  src: url("./assets/font/static/Montserrat-Bold.ttf");
 }
 
 * {
-    font-family: Monserrat;
-    margin-bottom: 0;
-    text-decoration: none;
+  font-family: Monserrat;
+  margin-bottom: 0;
+  text-decoration: none;
 }
 
 p,
 h1 {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 a {
-    color: inherit !important;
+  color: inherit !important;
+}
+
+.ant-modal-footer {
+  display: none !important;
 }

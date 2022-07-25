@@ -32,5 +32,7 @@ export const sideBarOptionsObject = {
       label: "Notifications",
     },
   ],
-  MANAGER_OPTIONS: [],
+  MANAGER_OPTIONS: [
+    { url: "/userMessages", icon: "message-simple", label: "Messages" },
+  ],
 };

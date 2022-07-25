@@ -1,10 +1,11 @@
 import { useQuery } from "@apollo/client";
 import React, { createContext, useState } from "react";
-import { getUserByToken } from "../graphql/User/getUserByToken";
+import { getUserByToken } from "../graphql/User/signInUser";
 
 const UserContext = createContext({
   actualUser: null,
   signInUser: () => {},
+  handleSignOut: () => {},
   getUserLoading: true,
   elementActive: null,
 });
@@ -41,9 +42,20 @@ const UserProvider = ({ children }) => {
     },
   });
 
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    setActualUser(null);
+  };
+
   return (
     <UserContext.Provider
-      value={{ actualUser, signInUser, getUserLoading, elementActive }}
+      value={{
+        actualUser,
+        signInUser,
+        getUserLoading,
+        elementActive,
+        handleSignOut,
+      }}
     >
       {children}
     </UserContext.Provider>

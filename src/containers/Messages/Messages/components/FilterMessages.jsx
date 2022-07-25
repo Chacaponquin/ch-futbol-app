@@ -7,7 +7,7 @@ const FilterMessages = ({ handleFilterMessage }) => {
       <input
         type="text"
         onChange={handleFilterMessage}
-        className="outline-0 ml-4 bg-transparent"
+        className="outline-0 ml-4 bg-transparent esm:text-sm"
         placeholder="Filter..."
       />
     </div>

@@ -59,17 +59,12 @@ const UserInfSection = ({ username, image, isAdmin }) => {
   const [openOptions, setOpenOptions] = useState(false);
   const [userOptions, setUserOptions] = useState([]);
 
-  const { setActualUser } = useContext(UserContext);
+  const { handleSignOut } = useContext(UserContext);
 
   useEffect(() => {
     if (isAdmin) setUserOptions(navBarOptions.MANAGER_OPTIONS);
     else setUserOptions(navBarOptions.CURRENT_USER_OPTIONS);
   }, [isAdmin]);
-
-  const handleSignOut = () => {
-    localStorage.removeItem("token");
-    setActualUser(null);
-  };
 
   return (
     <div className="flex items-center">

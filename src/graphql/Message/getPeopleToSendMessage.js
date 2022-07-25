@@ -6,6 +6,8 @@ export const getPeopleToSendMessage = gql`
       __typename
       ... on Player {
         playerID: _id
+        fullName
+        image
       }
       ... on Team {
         leagueID: league
@@ -15,6 +17,8 @@ export const getPeopleToSendMessage = gql`
       }
       ... on User {
         userID: _id
+        username
+        image
       }
     }
   }

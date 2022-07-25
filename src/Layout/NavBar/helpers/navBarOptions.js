@@ -5,6 +5,7 @@ export const navBarOptions = {
       icon: "person",
       label: "My Profile",
     },
+    { url: "/userMessages", icon: "message", label: "Messages" },
   ],
   MANAGER_OPTIONS: [
     { url: "/allPlayers", icon: "analytics", label: "All Players" },
@@ -16,6 +17,7 @@ export const navBarOptions = {
       icon: "bank",
       label: "Create League",
     },
+    { url: "/userMessages", icon: "message", label: "Messages" },
   ],
   SUPER_USER_OPTIONS: [],
 };

@@ -5,32 +5,72 @@ import UserContext from "../../../../context/UserContext";
 import { deleteMesseges } from "../../../../graphql/Message/deleteMessages";
 import { getAllMessagesUser } from "../../../../graphql/Message/getAllMessagesUser";
 import { showError, showSucces } from "../../../../helpers/showNotifications";
+import { TYPES_MESSAGE_QUERY } from "../helpers/typeMessageQuery";
 
-export const useMessagesHooks = () => {
+//TODO: PONER ESTE ARCHIVO APARTE
+const dataMap = (from) => {
+  const deleteProperty = (field, obj) => {
+    const id = from[field];
+
+    return { id, ...obj };
+  };
+
+  switch (from.__typename) {
+    case "Player": {
+      const { playerID, ...rest } = from;
+      return deleteProperty("playerID", rest);
+    }
+    case "User": {
+      const { userID, ...rest } = from;
+      return deleteProperty("userID", rest);
+    }
+    case "Team": {
+      const { teamID, ...rest } = from;
+      return deleteProperty("teamID", rest);
+    }
+    case "Trainer": {
+      const { teamID, ...rest } = from;
+      return deleteProperty("trainerID", rest);
+    }
+    default:
+      return from;
+  }
+};
+
+export const useMessagesHooks = (typeQuery) => {
   const navigate = useNavigate();
-  const { actualUser } = useContext(UserContext);
+  const { actualUser, elementActive } = useContext(UserContext);
 
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [userMessages, setUserMessages] = useState([]);
   const [openMessage, setOpenMessage] = useState(null);
 
-  const { loading: getMessagesLoading } = useQuery(getAllMessagesUser, {
-    variables: {
-      element: {
-        id: actualUser._id,
-        type: actualUser.role,
+  const getMessageQueryOptions = () => {
+    return {
+      variables: {
+        elementID:
+          typeQuery === TYPES_MESSAGE_QUERY.ELEMENT
+            ? elementActive.playerID
+            : null,
       },
-    },
-    onError: (error) => {
-      console.log(error);
-      showError(error);
-      navigate("/dashboard");
-    },
-    onCompleted: ({ getAllMessagesUser }) => {
-      console.log(getAllMessagesUser);
-      //setUserMessages(getAllMessagesUser),
-    },
-  });
+      onError: (error) => {
+        showError(error);
+        navigate("/dashboard");
+      },
+      onCompleted: ({ getAllMessagesUser }) => {
+        const mapData = getAllMessagesUser.map(({ from, ...rest }) => {
+          return { ...rest, from: dataMap(from) };
+        });
+
+        setUserMessages(mapData);
+      },
+    };
+  };
+
+  const { loading: getMessagesLoading } = useQuery(
+    getAllMessagesUser,
+    getMessageQueryOptions()
+  );
 
   const [deleteMessages, { loading: deleteMessagesLoading }] =
     useMutation(deleteMesseges);
@@ -59,13 +99,7 @@ export const useMessagesHooks = () => {
       refetchQueries: [
         {
           query: getAllMessagesUser,
-          variables: { id: actualUser._id },
-          onError: (error) => {
-            showError(error);
-            navigate("/dashboard");
-          },
-          onCompleted: ({ getAllMessagesUser }) =>
-            setUserMessages(getAllMessagesUser),
+          ...getMessageQueryOptions(),
         },
       ],
     });
@@ -88,13 +122,7 @@ export const useMessagesHooks = () => {
       refetchQueries: [
         {
           query: getAllMessagesUser,
-          variables: { id: actualUser._id },
-          onError: (error) => {
-            showError(error);
-            navigate("/dashboard");
-          },
-          onCompleted: ({ getAllMessagesUser }) =>
-            setUserMessages(getAllMessagesUser),
+          ...getMessageQueryOptions(),
         },
       ],
     });
