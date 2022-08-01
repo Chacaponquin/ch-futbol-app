@@ -30,7 +30,6 @@ const Login = () => {
     loginUserQuery({
       variables: { user: loginData },
       onCompleted: ({ loginUser }) => {
-        console.log(loginUser);
         localStorage.setItem("token", loginUser.token);
 
         signInUser(loginUser, () =>

@@ -16,12 +16,14 @@ const Messages = ({ typeQuery }) => {
 
     getMessagesLoading,
     deleteMessagesLoading,
+    createReplyLoading,
 
     selectMessage,
     handleDeleteMessages,
     handleDeleteSingleMessage,
     handleFilterMessage,
     handleOpenMessage,
+    handleSendReply,
   } = useMessagesHooks(typeQuery);
 
   const messageSectionClass = clsx(
@@ -99,6 +101,8 @@ const Messages = ({ typeQuery }) => {
             handleOpenMessage={handleOpenMessage}
             selectedMsg={openMessage}
             handleDeleteSingleMessage={handleDeleteSingleMessage}
+            handleSendReply={handleSendReply}
+            createReplyLoading={createReplyLoading}
           />
         </div>
       </div>

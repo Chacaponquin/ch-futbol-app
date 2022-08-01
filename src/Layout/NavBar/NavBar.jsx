@@ -22,7 +22,13 @@ const NavBar = ({ setSideBarOpen }) => {
         {actualUser ? (
           <div className="flex">
             <div className="text-xl text-black cursor-pointer">
-              <Icon glyph="align-left" onClick={() => setSideBarOpen(true)} />
+              {actualUser &&
+                (actualUser.elementsOwner.length || actualUser.isAdmin) && (
+                  <Icon
+                    glyph="align-left"
+                    onClick={() => setSideBarOpen(true)}
+                  />
+                )}
             </div>
           </div>
         ) : (

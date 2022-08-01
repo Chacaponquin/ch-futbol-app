@@ -4,11 +4,11 @@ import { Modal, Select } from "antd";
 import { useContext } from "react";
 import UserContext from "../../../../context/UserContext";
 import { useMutation, useQuery } from "@apollo/client";
-import { getPeopleToSendMessage } from "../../../../graphql/Message/getPeopleToSendMessage";
+import { getPeopleToSendMessage } from "../graphql/getPeopleToSendMessage";
 import { showError, showSucces } from "../../../../helpers/showNotifications";
 import { TYPES_MESSAGE_QUERY } from "../helpers/typeMessageQuery";
 import LoaderContainer from "../../../../shared/components/LoaderContainer/LoaderContainer";
-import { createMessage } from "../../../../graphql/Message/createMessage";
+import { createMessage } from "../graphql/createMessage";
 const { Option } = Select;
 
 const MessagesSectionHeader = ({

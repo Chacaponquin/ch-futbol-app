@@ -40,18 +40,15 @@ export const useSignUp = () => {
         onCompleted: ({ createUser }) => {
           localStorage.setItem("token", createUser.token);
 
-          if (role === userRoles.PLAYER)
-            signInUser(createUser, () =>
-              navigate({ pathname: "/createPlayer" }, { replace: true })
-            );
-          else if (role === userRoles.TRAINER)
-            signInUser(createUser, () =>
-              navigate({ pathname: "/createTrainer" }, { replace: true })
-            );
-          else if (role === userRoles.CLUB_OWNER)
-            signInUser(createUser, () =>
-              navigate({ pathname: "/createTeam" }, { replace: true })
-            );
+          let toNavigate = "";
+
+          if (role === userRoles.PLAYER) toNavigate = "/createPlayer";
+          else if (role === userRoles.TRAINER) toNavigate = "/createTrainer";
+          else if (role === userRoles.CLUB_OWNER) toNavigate = "/createTeam";
+
+          signInUser(createUser, () => {
+            navigate({ pathname: toNavigate }, { replace: true });
+          });
         },
         onError: showError,
       });

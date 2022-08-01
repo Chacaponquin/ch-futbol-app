@@ -2,8 +2,9 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router";
 import UserContext from "../../../../context/UserContext";
-import { deleteMesseges } from "../../../../graphql/Message/deleteMessages";
-import { getAllMessagesUser } from "../../../../graphql/Message/getAllMessagesUser";
+import { createReply } from "../graphql/createReply";
+import { deleteMesseges } from "../graphql/deleteMessages";
+import { getAllMessagesUser } from "../graphql/getAllMessagesUser";
 import { showError, showSucces } from "../../../../helpers/showNotifications";
 import { TYPES_MESSAGE_QUERY } from "../helpers/typeMessageQuery";
 
@@ -59,6 +60,7 @@ export const useMessagesHooks = (typeQuery) => {
       },
       onCompleted: ({ getAllMessagesUser }) => {
         const mapData = getAllMessagesUser.map(({ from, ...rest }) => {
+          console.log({ ...rest, from: dataMap(from) });
           return { ...rest, from: dataMap(from) };
         });
 
@@ -74,6 +76,9 @@ export const useMessagesHooks = (typeQuery) => {
 
   const [deleteMessages, { loading: deleteMessagesLoading }] =
     useMutation(deleteMesseges);
+
+  const [createReplyMutation, { loading: createReplyLoading }] =
+    useMutation(createReply);
 
   const selectMessage = (ev, id) => {
     const check = ev.target.checked;
@@ -128,6 +133,28 @@ export const useMessagesHooks = (typeQuery) => {
     });
   };
 
+  const handleSendReply = (id, content) => {
+    createReplyMutation({
+      variables: {
+        reply: {
+          messageID: id,
+          from:
+            typeQuery === TYPES_MESSAGE_QUERY.ELEMENT
+              ? elementActive
+              : actualUser._id,
+          content,
+        },
+      },
+      onCompleted: () => {
+        showSucces({
+          description: "Se han enviado con exito su respuesta",
+          header: "Éxito",
+        });
+      },
+      onError: showError,
+    });
+  };
+
   const handleOpenMessage = (message) => {
     setOpenMessage(message);
   };
@@ -145,7 +172,9 @@ export const useMessagesHooks = (typeQuery) => {
     handleDeleteSingleMessage,
     handleFilterMessage,
     handleOpenMessage,
+    handleSendReply,
     getMessagesLoading,
     deleteMessagesLoading,
+    createReplyLoading,
   };
 };

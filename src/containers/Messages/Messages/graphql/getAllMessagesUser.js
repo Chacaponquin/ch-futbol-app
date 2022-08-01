@@ -6,6 +6,7 @@ export const getAllMessagesUser = gql`
       _id
       content
       title
+      peopleWhoSee
       from {
         __typename
         ... on Player {
@@ -30,6 +31,32 @@ export const getAllMessagesUser = gql`
           image
           isAdmin
           role
+        }
+      }
+      replys {
+        content
+        from {
+          __typename
+          ... on Player {
+            playerID: _id
+            image
+            name: fullName
+          }
+          ... on Team {
+            teamID: _id
+            name
+            image
+          }
+          ... on Trainer {
+            trainerID: _id
+            name: fullName
+            image
+          }
+          ... on User {
+            userID: _id
+            name: username
+            image
+          }
         }
       }
     }
