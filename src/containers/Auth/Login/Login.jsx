@@ -4,11 +4,9 @@ import { loginUser } from "../../../graphql/User/signInUser";
 import { showError } from "../../../helpers/showNotifications";
 import Loader from "../../../shared/Loader/Loader";
 import UserContext from "../../../context/UserContext";
-import { useNavigate } from "react-router";
 
 const Login = () => {
   const { signInUser } = useContext(UserContext);
-  const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState({
     email: null,
@@ -32,9 +30,7 @@ const Login = () => {
       onCompleted: ({ loginUser }) => {
         localStorage.setItem("token", loginUser.token);
 
-        signInUser(loginUser, () =>
-          navigate({ pathname: "/blog" }, { replace: true })
-        );
+        signInUser(loginUser, () => window.location.reload());
       },
       onError: showError,
     });

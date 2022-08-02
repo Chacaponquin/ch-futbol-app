@@ -10,6 +10,7 @@ import CreateTrainer from "./ElementsCreation/CreateTrainer/CreateTrainer";
 import CreatePlayer from "./ElementsCreation/CreatePlayer/CreatePlayer";
 import CreateTeam from "./ElementsCreation/CreateTeam/CreateTeam";
 import CreateLeague from "./ElementsCreation/CreateLeague/CreateLeague";
+import Offerts from "./Offerts/Offerts";
 
 export {
   Home,
@@ -24,4 +25,5 @@ export {
   CreateTeam,
   CreateTrainer,
   CreateLeague,
+  Offerts,
 };

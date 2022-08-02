@@ -3,6 +3,7 @@
 @tailwind utilities;
 @font-face {
   font-family: Monserrat;
+  font-weight: 500;
   src: url("./assets/font/static/Montserrat-Regular.ttf");
 }
 

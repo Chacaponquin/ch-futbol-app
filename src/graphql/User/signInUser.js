@@ -8,6 +8,7 @@ const userSignInFragment = gql`
     role
     isAdmin
     _id
+    isNew
     elementsOwner {
       __typename
       ... on Player {

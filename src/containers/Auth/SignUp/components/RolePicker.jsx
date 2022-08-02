@@ -2,7 +2,7 @@ import { motion, AnimateSharedLayout } from "framer-motion";
 import { useState } from "react";
 import { BsX } from "react-icons/bs";
 import { loginBenefits } from "../../../../helpers/loginBenefits";
-import Loader from "../../../../shared/Loader/Loader";
+import LoaderContainer from "../../../../shared/components/LoaderContainer/LoaderContainer";
 import image1 from "../../../../assets/images/login/character.png";
 import image2 from "../../../../assets/images/login/coach.png";
 import image3 from "../../../../assets/images/login/football-player.png";
@@ -98,12 +98,12 @@ const ExpandCard = ({
       className="w-full fixed h-full top-0 left-0 z-50 esm:px-4 sm:px-4 md:px-10 lg:px-20 esm:-top-[40%]"
       layoutId={"expandible-card"}
     >
-      <div className="rounded-lg bg-white py-5 px-10 min-h-full flex flex-col">
-        <div className="flex justify-end cursor-pointer text-4xl ">
+      <div className="rounded-lg bg-white py-5 px-10 flex flex-col h-full min-h-full">
+        <div className="flex justify-end cursor-pointer text-4xl h-max">
           <BsX onClick={handleOpenCard} />
         </div>
 
-        <div className="grid md:grid-cols-2 md:grid-rows-1 grid-rows-2 grid-cols-1">
+        <div className="grid md:grid-cols-2 md:grid-rows-1 grid-rows-2 grid-cols-1 justify-center h-full">
           <div className="flex items-center justify-center">
             <img
               src={image}
@@ -113,7 +113,7 @@ const ExpandCard = ({
           </div>
 
           <motion.div
-            className="flex flex-col pr-10 relative space-y-6 esm:space-y-3 esm:pr-0"
+            className="flex flex-col md:pr-10 pr-0 relative space-y-6 esm:space-y-3 justify-center"
             transition={{ delay: 0.5 }}
             initial={{ opacity: 0, top: "3rem" }}
             animate={{ opacity: 1, top: "0rem" }}
@@ -134,16 +134,14 @@ const ExpandCard = ({
             </motion.ul>
 
             <div className="flex justify-end">
-              {loading ? (
-                <Loader className="w-[100px]" />
-              ) : (
+              <LoaderContainer className={"w-[100px]"} loading={loading}>
                 <button
                   className="rounded-md py-3 px-7 text-white font-bold bg-gradient-to-r from-purple-400 to-pink-600 w-max text-xl"
                   onClick={() => handleSubmit(role)}
                 >
                   Crear
                 </button>
-              )}
+              </LoaderContainer>
             </div>
           </motion.div>
         </div>

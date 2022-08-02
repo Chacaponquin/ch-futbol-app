@@ -14,6 +14,7 @@ import {
   Login,
   CreateTrainer,
   CreateLeague,
+  Offerts,
 } from "../../containers/index";
 
 import { TYPES_MESSAGE_QUERY } from "../../containers/Messages/Messages/helpers/typeMessageQuery";
@@ -31,15 +32,21 @@ const AppRoutes = () => {
   if (getUserLoading) {
     return (
       <div className="flex w-full h-screen bg-white items-center justify-center">
-        <Loader className="w-[250px]" />
+        <Loader className="w-[250px] esm:w-[150px]" />
       </div>
     );
   }
 
   return (
     <Routes>
+      <Route path="/signUp" element={<NoUserRoute children={<SignUp />} />} />
+      <Route path="/login" element={<NoUserRoute children={<Login />} />} />
+      <Route path="*" element={<Error404 />} />
+
       <Route path="/" element={<App />}>
         <Route path="/" element={<NoUserRoute children={<Home />} />} />
+
+        <Route path="/offerts" element={<UserRoute children={<Offerts />} />} />
 
         <Route
           path="/createTeam"
@@ -89,10 +96,6 @@ const AppRoutes = () => {
         <Route path="/blog" element={<BlogHome />} />
         <Route path="/blog/viewArticle/:id" element={<BlogViewArticle />} />
       </Route>
-
-      <Route path="/signUp" element={<NoUserRoute children={<SignUp />} />} />
-      <Route path="/login" element={<NoUserRoute children={<Login />} />} />
-      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 };
