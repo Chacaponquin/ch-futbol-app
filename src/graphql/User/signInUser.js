@@ -20,6 +20,7 @@ const userSignInFragment = gql`
         leagueID: league
         name
         teamID: _id
+        image
       }
       ... on Trainer {
         trainerID: _id
