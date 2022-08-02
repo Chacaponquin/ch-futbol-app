@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React, { createContext, useState } from "react";
 import { getUserByToken } from "../graphql/User/signInUser";
+import { dataMap } from "../helpers/dataMap";
 
 const UserContext = createContext({
   actualUser: null,
@@ -23,11 +24,14 @@ const UserProvider = ({ children }) => {
 
   const { loading: getUserLoading } = useQuery(getUserByToken, {
     onCompleted: ({ getUserByToken }) => {
+      const { elementsOwner, ...rest } = getUserByToken;
+      const elements = elementsOwner.map((el) => dataMap(el));
+
       if (getUserByToken.elementsOwner.length > 0) {
-        setElementActive(getUserByToken.elementsOwner[0]);
+        setElementActive(elements[0]);
       }
 
-      setActualUser(getUserByToken);
+      setActualUser({ ...rest, elementsOwner: elements });
     },
     onError: (error) => {
       const err = error?.graphQLErrors[0]?.extensions?.exception;

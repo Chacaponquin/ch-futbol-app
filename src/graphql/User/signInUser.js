@@ -8,19 +8,23 @@ const userSignInFragment = gql`
     role
     isAdmin
     _id
-    isNew
+    isNewUser
     elementsOwner {
       __typename
       ... on Player {
         playerID: _id
         image
-        fullName
+        name: fullName
       }
       ... on Team {
         leagueID: league
+        name
+        teamID: _id
       }
       ... on Trainer {
         trainerID: _id
+        name: fullName
+        image
       }
     }
   }

@@ -17,6 +17,7 @@ const MessagesSectionHeader = ({
   handleDeleteMessages,
   deleteLoading,
   typeQuery,
+  cantMessages,
 }) => {
   const { actualUser, elementActive } = useContext(UserContext);
 
@@ -33,11 +34,10 @@ const MessagesSectionHeader = ({
   useQuery(getPeopleToSendMessage, {
     variables: {
       elementID:
-        typeQuery === TYPES_MESSAGE_QUERY.ELEMENT ? elementActive : null,
+        typeQuery === TYPES_MESSAGE_QUERY.ELEMENT ? elementActive.id : null,
     },
     onError: showError,
     onCompleted: ({ getPeopleToSendMessage }) => {
-      console.log(getPeopleToSendMessage);
       setPeopleToSend(getPeopleToSendMessage);
     },
   });
@@ -86,98 +86,17 @@ const MessagesSectionHeader = ({
 
   return (
     <>
-      <div className="flex items-center justify-end gap-5 mb-3 esm:justify-center">
-        <Modal
-          title=""
-          visible={openModal}
-          okText={"Send"}
-          onCancel={handleCancel}
-          className="!w-[800px]"
-        >
-          <form
-            action=""
-            className="flex flex-col px-20 gap-5 py-5"
-            onSubmit={handleSendMessage}
-          >
-            <div className="flex items-center gap-5 justify-center">
-              <img
-                src={actualUser.image}
-                alt={actualUser.username}
-                className="rounded-full w-[50px] h-[50px]"
-              />
-
-              <div className="text-primary_color">
-                <Icon glyph="enter" />
-              </div>
-
-              <Select
-                onChange={onChange}
-                className="w-[500px] peopleToSend-container"
-              >
-                {peopleToSend.map((el, i) => (
-                  <Option value={el.userID} key={i}>
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={el.image}
-                        alt={el.username}
-                        className="w-[40px] h-[40px] rounded-full object-cover"
-                      />
-                      <p className="mb-0 font-bold">{el.username}</p>
-                    </div>
-                  </Option>
-                ))}
-              </Select>
-            </div>
-
-            <div className="flex flex-col w-full gap-4">
-              <div className="w-full flex flex-col gap-1">
-                <h1 className="text-xl font-bold mb-0">Title:</h1>
-                <input
-                  type="text"
-                  className="outline-none px-4 py-2 text-base border-2 rounded-md"
-                  placeholder="Title..."
-                  name="title"
-                  required
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="w-full flex flex-col gap-1">
-                <h1 className="text-xl font-bold mb-0">Message:</h1>
-                <textarea
-                  name="content"
-                  className="px-4 py-2 outline-none border-2 rounded-md resize-none !h-[200px]"
-                  placeholder="Message..."
-                  required
-                  onChange={handleChange}
-                ></textarea>
-              </div>
-            </div>
-
-            <div className="flex justify-end w-full gap-5 items-center">
-              <button
-                className="bg-slate-100 text-black font-bold rounded-md py-2 px-5 h-max"
-                onClick={handleCancel}
-              >
-                <p className="mb-0 font-monserratBold text-base uppercase">
-                  Cancel
-                </p>
-              </button>
-
-              <LoaderContainer className={"w-[60px]"} loading={creationLoading}>
-                <button
-                  type="submit"
-                  className="flex items-center bg-primary_color rounded-md w-max py-2 px-5 gap-2 text-white"
-                >
-                  <p className="font-monserratBold text-base uppercase mb-0">
-                    Send
-                  </p>
-                  <Icon glyph="send-fill" size={22} />
-                </button>
-              </LoaderContainer>
-            </div>
-          </form>
-        </Modal>
+      <div className="flex items-center justify-end gap-5 mb-3">
+        <NewMessageModal
+          actualUser={actualUser}
+          creationLoading={creationLoading}
+          handleCancel={handleCancel}
+          handleChange={handleChange}
+          onChange={onChange}
+          openModal={openModal}
+          handleSendMessage={handleSendMessage}
+          peopleToSend={peopleToSend}
+        />
 
         <button
           className="text-white bg-primary_color px-5 py-2 flex items-center gap-3 rounded-md"
@@ -187,18 +106,125 @@ const MessagesSectionHeader = ({
           <p className="mb-0 font-bold">New Message</p>
         </button>
 
-        <LoaderContainer className="w-[80px]" loading={deleteLoading}>
-          <button
-            className={deleteButtonClass}
-            disabled={selectedMessages.length > 0 ? false : true}
-            onClick={handleDeleteMessages}
-          >
-            <Icon glyph="delete" />
-            <p className="mb-0 font-bold">Delete</p>
-          </button>
-        </LoaderContainer>
+        {cantMessages !== 0 && (
+          <LoaderContainer className="w-[80px]" loading={deleteLoading}>
+            <button
+              className={deleteButtonClass}
+              disabled={selectedMessages.length > 0 ? false : true}
+              onClick={handleDeleteMessages}
+            >
+              <Icon glyph="delete" />
+              <p className="mb-0 font-bold">Delete</p>
+            </button>
+          </LoaderContainer>
+        )}
       </div>
     </>
+  );
+};
+
+const NewMessageModal = ({
+  openModal,
+  handleCancel,
+  handleSendMessage,
+  actualUser,
+  onChange,
+  peopleToSend,
+  handleChange,
+  creationLoading,
+}) => {
+  return (
+    <Modal
+      title=""
+      visible={openModal}
+      okText={"Send"}
+      onCancel={handleCancel}
+      className="!w-[800px]"
+    >
+      <form
+        action=""
+        className="flex flex-col px-20 gap-5 py-5 esm:px-4 esm:py-3"
+        onSubmit={handleSendMessage}
+      >
+        <div className="flex items-center gap-5 justify-center">
+          <img
+            src={actualUser.image}
+            alt={actualUser.username}
+            className="rounded-full w-[50px] h-[50px]"
+          />
+
+          <div className="text-primary_color">
+            <Icon glyph="enter" />
+          </div>
+
+          <Select
+            onChange={onChange}
+            className="w-[500px] peopleToSend-container"
+          >
+            {peopleToSend.map((el, i) => (
+              <Option value={el.userID} key={i}>
+                <div className="flex items-center gap-3">
+                  <img
+                    src={el.image}
+                    alt={el.username}
+                    className="w-[40px] h-[40px] rounded-full object-cover"
+                  />
+                  <p className="mb-0 font-bold">{el.username}</p>
+                </div>
+              </Option>
+            ))}
+          </Select>
+        </div>
+
+        <div className="flex flex-col w-full gap-4">
+          <div className="w-full flex flex-col gap-1">
+            <h1 className="text-xl font-bold mb-0">Title:</h1>
+            <input
+              type="text"
+              className="outline-none px-4 py-2 text-base border-2 rounded-md"
+              placeholder="Title..."
+              name="title"
+              required
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="w-full flex flex-col gap-1">
+            <h1 className="text-xl font-bold mb-0">Message:</h1>
+            <textarea
+              name="content"
+              className="px-4 py-2 outline-none border-2 rounded-md resize-none !h-[200px]"
+              placeholder="Message..."
+              required
+              onChange={handleChange}
+            ></textarea>
+          </div>
+        </div>
+
+        <div className="flex justify-end w-full gap-5 items-center">
+          <button
+            className="bg-slate-100 text-black font-bold rounded-md py-2 px-5 h-max"
+            onClick={handleCancel}
+          >
+            <p className="mb-0 font-monserratBold text-base uppercase">
+              Cancel
+            </p>
+          </button>
+
+          <LoaderContainer className={"w-[60px]"} loading={creationLoading}>
+            <button
+              type="submit"
+              className="flex items-center bg-primary_color rounded-md w-max py-2 px-5 gap-2 text-white"
+            >
+              <p className="font-monserratBold text-base uppercase mb-0">
+                Send
+              </p>
+              <Icon glyph="send-fill" size={22} />
+            </button>
+          </LoaderContainer>
+        </div>
+      </form>
+    </Modal>
   );
 };
 

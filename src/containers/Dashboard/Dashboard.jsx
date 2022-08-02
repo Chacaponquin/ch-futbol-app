@@ -5,7 +5,7 @@ import WelcomeMessage from "./components/WelcomeMessage/WelcomeMessage";
 const Dashboard = () => {
   const { actualUser } = useContext(UserContext);
 
-  if (actualUser.elementsOwner.length === 0 && actualUser.isNew)
+  if (actualUser.elementsOwner.length === 0 && actualUser.isNewUser)
     return <WelcomeMessage />;
 
   return <div>Dashboard</div>;

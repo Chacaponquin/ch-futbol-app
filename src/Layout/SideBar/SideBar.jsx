@@ -9,18 +9,22 @@ import { sideBarOptionsObject } from "./helpers/sideBarOptions";
 import { NavLink } from "react-router-dom";
 
 const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
+  const { actualUser, elementActive } = useContext(UserContext);
   const [navBarOptions, setNavBarOptions] = useState([]);
 
   const sideBarClass = clsx(
-    "fixed w-[280px] h-screen bg-slate-50 top-0 flex flex-col p-4 transition-all duration-500 z-20",
+    "fixed w-[300px] h-screen bg-slate-50 top-0 flex flex-col p-4 transition-all duration-500 z-20",
     { "translate-x-0": sideBarOpen },
     { "-translate-x-[100%]": !sideBarOpen }
   );
 
   const optionClass =
-    "flex w-full text-lg items-center font-bold py-3 rounded-md px-4 ";
+    "flex w-full text-lg items-center font-bold py-3 rounded-md px-4";
 
-  const { actualUser } = useContext(UserContext);
+  const elementsClass = (id) =>
+    clsx("flex items-center gap-3 py-2 px-3 rounded-md", {
+      "bg-primary_color text-white font-bold": id === elementActive.id,
+    });
 
   useEffect(() => {
     if (actualUser) {
@@ -58,7 +62,7 @@ const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
             !actualUser.isAdmin &&
             actualUser.elementsOwner.length &&
             actualUser.elementsOwner.map((el, i) => (
-              <ElementCard element={el} key={i} />
+              <ElementCard element={el} key={i} className={elementsClass} />
             ))}
         </div>
 
@@ -81,8 +85,18 @@ const SideBar = ({ sideBarOpen, setSideBarOpen }) => {
   );
 };
 
-const ElementCard = ({ element }) => {
-  return <div></div>;
+const ElementCard = ({ element, className }) => {
+  return (
+    <div className={className(element.id)}>
+      <img
+        src={element.image}
+        alt={element.name}
+        className={"w-[40px] h-[40px] object-cover rounded-full"}
+      />
+
+      <p className="mb-0 text-sm">{element.name}</p>
+    </div>
+  );
 };
 
 export default SideBar;

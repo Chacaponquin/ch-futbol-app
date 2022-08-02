@@ -74,6 +74,7 @@ const Messages = ({ typeQuery }) => {
             handleDeleteMessages={handleDeleteMessages}
             deleteLoading={deleteMessagesLoading}
             typeQuery={typeQuery}
+            cantMessages={userMessages.length}
           />
           {userMessages.length > 0 && (
             <FilterMessages handleFilterMessage={handleFilterMessage} />

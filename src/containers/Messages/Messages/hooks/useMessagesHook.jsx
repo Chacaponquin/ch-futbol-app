@@ -7,36 +7,7 @@ import { deleteMesseges } from "../graphql/deleteMessages";
 import { getAllMessagesUser } from "../graphql/getAllMessagesUser";
 import { showError, showSucces } from "../../../../helpers/showNotifications";
 import { TYPES_MESSAGE_QUERY } from "../helpers/typeMessageQuery";
-
-//TODO: PONER ESTE ARCHIVO APARTE
-const dataMap = (from) => {
-  const deleteProperty = (field, obj) => {
-    const id = from[field];
-
-    return { id, ...obj };
-  };
-
-  switch (from.__typename) {
-    case "Player": {
-      const { playerID, ...rest } = from;
-      return deleteProperty("playerID", rest);
-    }
-    case "User": {
-      const { userID, ...rest } = from;
-      return deleteProperty("userID", rest);
-    }
-    case "Team": {
-      const { teamID, ...rest } = from;
-      return deleteProperty("teamID", rest);
-    }
-    case "Trainer": {
-      const { teamID, ...rest } = from;
-      return deleteProperty("trainerID", rest);
-    }
-    default:
-      return from;
-  }
-};
+import { dataMap } from "../../../../helpers/dataMap";
 
 export const useMessagesHooks = (typeQuery) => {
   const navigate = useNavigate();
@@ -60,7 +31,6 @@ export const useMessagesHooks = (typeQuery) => {
       },
       onCompleted: ({ getAllMessagesUser }) => {
         const mapData = getAllMessagesUser.map(({ from, ...rest }) => {
-          console.log({ ...rest, from: dataMap(from) });
           return { ...rest, from: dataMap(from) };
         });
 

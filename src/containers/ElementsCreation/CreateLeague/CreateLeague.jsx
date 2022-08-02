@@ -2,11 +2,11 @@ import React from "react";
 import { Select, InputNumber } from "antd";
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
-import { getAllCountries } from "../../../graphql/Extra/getAllCountries";
 import { createLeague } from "../../../graphql/Leagues/createLeague";
 import { showError, showSucces } from "../../../helpers/showNotifications";
 import Loader from "../../../shared/Loader/Loader";
 import { useNavigate } from "react-router";
+import { getAllCountries } from "../../../shared/graphql/getAllCountries";
 
 const { Option } = Select;
 

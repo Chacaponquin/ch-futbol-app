@@ -43,7 +43,7 @@ const InitialForm = ({
             Name:
           </label>
           <input
-            className="p-3 border-2 focus:border-primary_color rounded-md"
+            className="py-2 px-4 rounded-md outline-none"
             type="text"
             placeholder="Team Name..."
             name="name"

@@ -1,146 +1,75 @@
 import { DatePicker } from "antd";
-import React, { useRef, useState } from "react";
-import { FaCamera } from "react-icons/fa";
+import React, { useRef } from "react";
+import Icon from "supercons";
 import { Select } from "antd";
-import { playerPositions } from "../../../helpers/playerPositions";
-import { showError } from "../../../helpers/showNotifications";
-import { useMutation, useQuery } from "@apollo/client";
-import { createPlayer } from "../../../graphql/Players/createPlayer";
-import axios from "axios";
-import Loader from "../../../shared/Loader/Loader";
-import { getAllCountries } from "../../../graphql/Extra/getAllCountries";
-import { useEffect } from "react";
-import { useContext } from "react";
-import UserContext from "../../../context/UserContext";
-import { userRoles } from "../../../helpers/userRoles";
-import { useNavigate } from "react-router";
+import LoaderContainer from "../../../shared/components/LoaderContainer/LoaderContainer";
+import { useCreatePlayer } from "./hooks/useCreatePlayer";
+import { inputClass, labelClass, selectClass } from "./helpers/classes";
 
 const { Option } = Select;
 
 const CreatePlayer = () => {
-  const navigate = useNavigate();
+  const {
+    loading,
+    imageLoader,
 
-  const { actualUser } = useContext(UserContext);
-  const selectClass = "esm:w-[100%] sm:w-52 md:w-72 lg:w-80 xl:w-96 rounded-md";
-  const [showImage, setShowImage] = useState(null);
-  const [playerImage, setPlayerImage] = useState(null);
-  const [imageLoader, setImageLoader] = useState(false);
-  const [countryList, setCountryList] = useState([]);
+    countryList,
+    showImage,
+    playerPositions,
 
-  const [playerData, setPlayerData] = useState({
-    birth: null,
-    pos: null,
-    firstName: null,
-    lastName: null,
-    country: null,
-    gender: null,
-  });
+    handleSubmit,
 
-  const [playerMutation, { loading }] = useMutation(createPlayer);
+    onImageChange,
+    onChangeName,
+    onDateChange,
+    onGenderChange,
+    onPosChange,
+    onCountryChange,
+  } = useCreatePlayer();
 
-  const onChangeName = (e) => {
-    setPlayerData({ ...playerData, [e.target.name]: e.target.value });
-  };
-  const onDateChange = (date, dateString) => {
-    setPlayerData({ ...playerData, birth: date });
-  };
-  const onPosChange = (value) => {
-    setPlayerData({ ...playerData, pos: value });
-  };
-  const onGenderChange = (value) => {
-    setPlayerData({ ...playerData, gender: value });
-  };
-
-  useQuery(getAllCountries, {
-    onCompleted: ({ getCountryList }) => setCountryList(getCountryList),
-  });
-
-  const onImageChange = (e) => {
-    const files = e.target.files;
-    if (files.length) {
-      const reader = new FileReader();
-
-      reader.onload = (file) => {
-        setShowImage(reader.result);
-        setPlayerImage(files[0]);
-      };
-
-      reader.readAsDataURL(files[0]);
-    }
-  };
-  const onCountryChange = (value) => {
-    setPlayerData({ ...playerData, country: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const values = Object.values(playerData);
-
-    for (let i = 0; i < values.length; i++) {
-      if (!values[i] || !playerImage) {
-        showError({ message: "Ningun campo puede estar vacio" });
-        return;
-      }
-    }
-
-    const data = new FormData();
-    data.set("image", playerImage);
-
-    setImageLoader(true);
-    axios
-      .post(`${process.env.REACT_APP_API_CURRENT}/uploadImage`, data)
-      .then((res) => {
-        const { imageUrl } = res.data;
-
-        playerMutation({
-          variables: { player: { ...playerData, imageUrl: imageUrl } },
-          onCompleted: (data) => console.log(data),
-          onError: showError,
-        });
-      })
-      .catch((error) => showError(error))
-      .finally(() => setImageLoader(false));
-  };
-
-  useEffect(() => {
-    if (actualUser.role !== userRoles.PLAYER) navigate("/dashboard");
-  }, [actualUser, navigate]);
+  if (loading || imageLoader) {
+    return (
+      <div className="fixed w-screen h-screen bg-slate-200/50 top-0 left-0 flex justify-center items-center z-50">
+        <LoaderContainer
+          className={"w-[200px]"}
+          loading={loading || imageLoader}
+        />
+      </div>
+    );
+  }
 
   return (
     <div>
-      {(loading || imageLoader) && <CreatePlayerLoader />}
-
       <div className="exsm:px-3 esm:px-7 sm:px-10 md:px-20 lg:px-64">
         <div className="bg-form_bg py-8 px-16 exsm:px-3 esm:px-5 sm:px-10 md:px-16">
-          <h1 className="text-2xl font-monserratBold mb-5 exsm:text-center">
-            Player Data
-          </h1>
           <form className="w-full space-y-6" onSubmit={handleSubmit}>
             <div className="flex w-full items-center h-max esm:flex-col">
               <ImageInput onImageChange={onImageChange} showImage={showImage} />
 
               <div className="flex flex-col ml-16 space-y-3 w-full esm:ml-0 exsm:mt-5">
                 <div className="flex flex-col w-full">
-                  <label htmlFor="" className="text-base font-bold w-full mb-1">
-                    First Name
+                  <label htmlFor="" className={labelClass}>
+                    First Name:
                   </label>
                   <input
                     type="text"
-                    className="px-3 py-2 rounded-md"
+                    className={inputClass}
                     name="firstName"
                     onChange={onChangeName}
+                    placeholder="First Name..."
                   />
                 </div>
 
                 <div className="flex flex-col">
-                  <label htmlFor="" className="text-base font-bold w-full mb-1">
-                    Last Name
+                  <label htmlFor="" className={labelClass}>
+                    Last Name:
                   </label>
                   <input
                     type="text"
-                    className="px-3 py-2 rounded-md"
+                    className={inputClass}
                     name="lastName"
                     onChange={onChangeName}
+                    placeholder="Last Name..."
                   />
                 </div>
               </div>
@@ -148,8 +77,8 @@ const CreatePlayer = () => {
 
             <div className="w-full flex justify-between esm:flex-col esm:space-y-5">
               <div className="flex flex-col">
-                <label htmlFor="" className="text-base font-bold w-full mb-1">
-                  Birthdate
+                <label htmlFor="" className={labelClass}>
+                  Birthdate:
                 </label>
                 <DatePicker
                   onChange={onDateChange}
@@ -160,8 +89,8 @@ const CreatePlayer = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="" className="text-base font-bold w-full mb-1">
-                  Position
+                <label htmlFor="" className={labelClass}>
+                  Position:
                 </label>
                 <Select
                   showSearch
@@ -186,8 +115,8 @@ const CreatePlayer = () => {
 
             <div className="w-full flex justify-between esm:flex-col esm:space-y-5">
               <div className="flex flex-col">
-                <label htmlFor="" className="text-base font-bold w-full mb-1">
-                  Gender
+                <label htmlFor="" className={labelClass}>
+                  Gender:
                 </label>
                 <Select
                   showSearch
@@ -207,8 +136,8 @@ const CreatePlayer = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="" className="text-base font-bold w-full mb-1">
-                  Country
+                <label htmlFor="" className={labelClass}>
+                  Country:
                 </label>
                 <Select
                   showSearch
@@ -232,8 +161,8 @@ const CreatePlayer = () => {
             </div>
 
             <div className="flex justify-end">
-              <button className="font-bold  py-2 px-8 text-lg bg-primary_color text-white">
-                Next
+              <button className="font-bold  py-2 px-8 text-lg bg-primary_color text-white rounded-md">
+                Create
               </button>
             </div>
           </form>
@@ -243,16 +172,9 @@ const CreatePlayer = () => {
   );
 };
 
-const CreatePlayerLoader = () => {
-  return (
-    <div className="fixed w-screen h-screen bg-slate-200 top-0 left-0 flex justify-center items-center z-50 opacity-70">
-      <Loader className="w-[150px] h-[150px]" />
-    </div>
-  );
-};
-
 const ImageInput = ({ onImageChange, showImage }) => {
   const imageInput = useRef();
+
   return (
     <>
       <input
@@ -267,16 +189,18 @@ const ImageInput = ({ onImageChange, showImage }) => {
         <img
           src={showImage}
           alt=""
-          className="border-dashed w-[150px] h-[150px] rounded-full flex justify-center items-center bg-white border-4 cursor-pointer border-primary_color esm:w-[100px] esm:h-[100px] object-cover"
+          className="border-dashed w-[250px] h-[250px] rounded-md flex justify-center items-center bg-white border-4 cursor-pointer border-gray-300 esm:w-[300px] esm:h-[200px] esm:mb-2 object-cover"
           onClick={() => imageInput.current.click()}
         />
       ) : (
         <>
           <div
-            className="border-dashed min-w-[150px] min-h-[150px] rounded-full flex justify-center items-center bg-white border-4 cursor-pointer border-primary_color esm:min-w-[100px] esm:min-h-[100px]"
+            className="border-dashed min-w-[250px] min-h-[250px] rounded-md flex justify-center items-center bg-white border-4 cursor-pointer border-gray-300 esm:min-w-[100px] esm:min-h-[100px]"
             onClick={() => imageInput.current.click()}
           >
-            <FaCamera className="text-3xl text-primary_color esm:text-xl" />
+            <div className="text-gray-600">
+              <Icon glyph="cloud-upload" size={60} />
+            </div>
           </div>
         </>
       )}
