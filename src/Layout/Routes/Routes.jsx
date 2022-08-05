@@ -15,6 +15,9 @@ import {
   CreateTrainer,
   CreateLeague,
   Offerts,
+  Api,
+  AboutUs,
+  MyProfile,
 } from "../../containers/index";
 
 import { TYPES_MESSAGE_QUERY } from "../../containers/Messages/Messages/helpers/typeMessageQuery";
@@ -45,6 +48,10 @@ const AppRoutes = () => {
 
       <Route path="/" element={<App />}>
         <Route path="/" element={<NoUserRoute children={<Home />} />} />
+        <Route path="/api" element={<Api />} />
+        <Route path="/aboutUs" element={<AboutUs />} />
+
+        <Route path="/myProfile" element={<MyProfile />} />
 
         <Route path="/offerts" element={<UserRoute children={<Offerts />} />} />
 

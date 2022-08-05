@@ -6,6 +6,7 @@ import Icon from "supercons";
 import UserContext from "../../context/UserContext";
 import { navBarOptions } from "./helpers/navBarOptions";
 import { NavLink } from "react-router-dom";
+import { welcomeOptions } from "./helpers/welcomeOptions";
 
 const NavBar = ({ setSideBarOpen }) => {
   const location = useLocation();
@@ -18,7 +19,7 @@ const NavBar = ({ setSideBarOpen }) => {
 
   return (
     <div className={navBarClass}>
-      <div className="flex justify-between items-center bg-white shadow-xl mb-5 py-3 px-10">
+      <div className="grid grid-cols-3 justify-between items-center bg-white shadow-xl mb-5 py-3 px-10">
         {actualUser ? (
           <div className="flex">
             <div className="text-xl text-black cursor-pointer">
@@ -35,6 +36,14 @@ const NavBar = ({ setSideBarOpen }) => {
           <div></div>
         )}
 
+        {location.pathname === "/" ||
+        location.pathname === "/api" ||
+        location.pathname === "/aboutUs" ? (
+          <WelcomeOptions />
+        ) : (
+          <div></div>
+        )}
+
         {actualUser ? (
           <UserInfSection {...actualUser} />
         ) : (
@@ -45,16 +54,34 @@ const NavBar = ({ setSideBarOpen }) => {
   );
 };
 
+const WelcomeOptions = () => {
+  const navBarLinkActive = ({ isActive }) => {
+    return clsx(
+      "flex items-center gap-2 py-2 rounded-lg px-4 font-bold rounded-full ",
+      {
+        "bg-primary_color !text-white": isActive,
+      }
+    );
+  };
+
+  return (
+    <div className="flex gap-3 items-center">
+      {welcomeOptions.map((opt, i) => (
+        <NavLink to={opt.url} className={navBarLinkActive} key={i}>
+          <Icon glyph={opt.icon} />
+          <p className="mb-0 font-bold lg:block hidden">{opt.label}</p>
+        </NavLink>
+      ))}
+    </div>
+  );
+};
+
 const NavBarAuthButtons = () => {
   return (
-    <div className="flex items-center">
-      <Link to={"/signUp"}>
-        <button className="px-8 py-2 font-bold text-xl">SignUp</button>
-      </Link>
-
+    <div className="flex items-center justify-end">
       <Link to={"/login"}>
-        <button className="font-bold bg-primary_color text-white rounded-md text-xl px-8 py-2">
-          Login
+        <button className="font-bold bg-primary_color text-white rounded-md text-base px-7 py-2">
+          Get Access
         </button>
       </Link>
     </div>
@@ -73,7 +100,7 @@ const UserInfSection = ({ username, image, isAdmin }) => {
   }, [isAdmin]);
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center justify-end">
       <div className="flex justify-end items-end">
         <img
           src={image}

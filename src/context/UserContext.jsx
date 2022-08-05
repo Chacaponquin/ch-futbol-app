@@ -49,6 +49,7 @@ const UserProvider = ({ children }) => {
   const handleSignOut = () => {
     localStorage.removeItem("token");
     setActualUser(null);
+    window.location.reload(false);
   };
 
   return (
